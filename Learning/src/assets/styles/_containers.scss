@@ -1,4 +1,7 @@
-// TODO: reuse this class in pages
 .page-container {
-
+    display: flex;
+    flex-direction: column;
+    background-color: $light-blue-color;
+    padding: 1.5rem 2rem;
+    min-height: calc(100vh-9.095rem);
 }
