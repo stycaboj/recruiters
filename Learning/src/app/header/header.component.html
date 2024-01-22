@@ -1,0 +1,40 @@
+<div class="flex justify-between p-8 text-blue">
+    <div class="flex justify-between items-center max-w-200 flex-1">
+        <div class="text-2xl font-bold">
+            Onboarding Tracker
+        </div>
+        <div class="flex flex-wrap text-base font-bold lg:hidden">
+            <a [routerLink]="['/home']" class="mx-4">Home</a>
+            <a [routerLink]="['/vacancies']" class="mx-4">Vacancies</a>
+            <a [routerLink]="['/recruiters']" class="mx-4">Recruiters</a>
+            <a [routerLink]="['/candidates']" class="mx-4">Candidates</a>
+            <a [routerLink]="['/interviews']" class="mx-4">Interviews</a>
+        </div>
+    </div>
+    <div class="flex justify-between items-center text-base font-bold max-w-68 flex-1 sm:max-w-36">
+        <div class="cursor-pointer">
+            <img src="../../assets/img/flag-usa.svg" alt="usa">
+        </div>
+        <img src="../../assets/img/avatar.png" alt="" class="w-8 rounded-2xl">
+        <div class="sm:hidden">Name Surname</div>
+        <a href="#">
+            <button class="bg-lblue text-blue border-0 rounded text-base font-bold p-1">
+                <span class="cursor-pointer">Log out</span>
+            </button>
+        </a>
+    </div>
+</div>
+<div class="hidden lg:flex">
+    <button mat-icon-button [matMenuTriggerFor]="menu" class="!text-blue ml-8 mb-8"><mat-icon>menu</mat-icon></button>
+</div>
+<mat-menu #menu="matMenu" class="!bg-lblue">
+    <button [routerLink]="['/home']" mat-menu-item class="!font-bold !text-blue">Home</button>
+    <button [routerLink]="['/vacancies']" mat-menu-item class="!font-bold !text-blue">Vacancies</button>
+    <button [routerLink]="['/recruiters']" mat-menu-item class="!font-bold !text-blue">Recruiters</button>
+    <button [routerLink]="['/candidates']" mat-menu-item class="!font-bold !text-blue">Candidates</button>
+    <button [routerLink]="['/interviews']" mat-menu-item class="!font-bold !text-blue">Interviews</button>
+</mat-menu>
+<div class="h-0.5 bg-lgray"></div>
+<div class="text-gray text-base font-bold py-3 px-8 relative z-10 shadow-md">
+    Home
+</div>

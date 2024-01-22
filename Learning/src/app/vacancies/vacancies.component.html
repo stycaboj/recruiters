@@ -1,0 +1,58 @@
+<div class="flex flex-col bg-lblue py-6 px-8 min-h-[calc(100vh-9.095rem)]">
+    <button mat-raised-button color="primary" class="!font-bold !ml-auto !w-10 !min-w-0">
+        <div class="flex justify-center items-center">
+            <mat-icon class="text-white !font-bold">
+                add
+            </mat-icon>
+        </div>
+    </button>
+    <mat-card class="flex flex-col py-6 px-8 my-4 !rounded bg-white" *ngFor="let vacancy of vacancies">
+        <div class="flex justify-between items-center flex-wrap">
+            <div class="flex">
+                <div class="flex justify-center items-center text-2xl font-semibold w-20 h-20 rounded text-coral bg-lcoral">{{ vacancy.icon }}</div>
+                <div>
+                    <a href="#" class="flex font-bold text-lg text-blue px-4 pt-4 flex-wrap">
+                        <div>{{ vacancy.name }}</div>
+                        <div class="mx-2">
+                            ({{ vacancy.seniority }})
+                        </div>
+                        <div>
+                            <mat-icon class="text-seagreen mt-0.5">
+                                check_circle
+                            </mat-icon>
+                        </div>
+                    </a>
+                    <div class="flex flex-wrap px-4">
+                        <div class="flex items-center pr-4 text-base font-semibold text-gray">
+                            <mat-icon>attach_money</mat-icon>
+                            {{ vacancy.salary }}
+                        </div>
+                        <div class="flex items-center pr-4 text-base font-semibold text-gray">
+                            <mat-icon style="margin-right: 0.5rem;">
+                                calendar_month
+                            </mat-icon>
+                            {{ vacancy.date }}
+                        </div>
+                        <div class="flex items-center pr-4 text-base font-semibold text-gray">
+                            <mat-icon style="margin-right: 0.5rem;">
+                                location_on
+                            </mat-icon>
+                            {{ vacancy.type }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-between items-center flex-wrap max-w-60 flex-1">
+                <img src="../../assets/img/photo.jpg" alt="" class="w-12 rounded-10xl">
+                <button mat-raised-button color="warn" class="!font-bold">DELETE</button>
+                <button mat-raised-button color="primary" class="!font-bold">EDIT</button>
+            </div>
+        </div>
+        <div class="my-6 h-0.5 bg-lgray"></div>
+        <div class="font-semibold text-base text-gray">
+            <div class="description">
+                {{ vacancy.description }}
+            </div>
+        </div>
+    </mat-card>
+</div>
