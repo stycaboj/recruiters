@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CardModel } from '../../core/models/card.model';
 
 @Component({
   selector: 'app-home',
@@ -6,7 +7,7 @@ import { Component } from '@angular/core';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  public recruiters = [
+  public recruiters: CardModel[] = [
     {
       id: 0,
       name: 'Alex de Murzenko',
@@ -24,7 +25,7 @@ export class HomeComponent {
     },
   ]
 
-  public vacancies = [
+  public vacancies: CardModel[] = [
     {
       id: 0,
       name: 'Looking for a 3 pos in BB Team',

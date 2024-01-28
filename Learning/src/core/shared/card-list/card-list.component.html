@@ -6,13 +6,13 @@
 
     <div class="flex flex-wrap p-5 sm:justify-center">
         <mat-card *ngFor="let item of items" class="!m-5 !min-w-52 !max-w-92 !h-60 !bg-lteal">
-            <div class="font-bold bg-teal p-4 rounded-t" [ngClass]="getColorClass(itemNameColor)">
+            <div class="font-bold bg-teal p-4 rounded-t" [ngClass]="'text-' + itemNameColor">
                 <div>
                     {{ item.name }}
                 </div>
             </div>
             <div class="flex flex-col items-center">
-                <img src="../../assets/img/photo.jpg" alt="" class="m-4 rounded max-w-28">
+                <img src="../../assets/img/photo.jpg"  class="m-4 rounded max-w-28">
                 <div class="font-bold text-turquoise mb-4">
                     <div>
                         {{ item.description }}
