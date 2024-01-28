@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { RecruitersComponent } from '../recruiters/recruiters.component';
 
 @Component({
   selector: 'app-vacancies',
   templateUrl: './vacancies.component.html',
   styleUrl: './vacancies.component.scss',
 })
-
-export class VacanciesComponent {
+export class VacanciesComponent implements OnInit {
   public vacancies = [
     {
       id: 0,
@@ -28,7 +28,7 @@ export class VacanciesComponent {
       salary: '1000',
       date: '10/01/2024',
       type: 'Regular',
-      description: "Aboba",
+      description: 'Aboba',
     },
     // {
     //   id: 2,
@@ -52,5 +52,11 @@ export class VacanciesComponent {
     //   type: 'Regular',
     //   description: "Description",
     // },
-  ]
+  ];
+
+  constructor() {}
+
+  ngOnInit() {
+
+  }
 }

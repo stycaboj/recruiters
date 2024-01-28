@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-recruiters',
   templateUrl: './recruiters.component.html',
-  styleUrl: './recruiters.component.scss'
+  styleUrl: './recruiters.component.scss',
 })
 export class RecruitersComponent {
   public recruiters = [
@@ -19,7 +19,7 @@ export class RecruitersComponent {
       fullname: 'Sashok Tennessee',
       number: '322-322',
       mail: 'totsamiychel@advance.samp',
-      date: '13.01.2024'
-    }
-  ]
+      date: '13.01.2024',
+    },
+  ];
 }

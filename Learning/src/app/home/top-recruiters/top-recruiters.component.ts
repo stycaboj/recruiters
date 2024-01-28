@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-top-recruiters',
@@ -6,7 +7,6 @@ import { Component } from '@angular/core';
   styleUrl: './top-recruiters.component.scss'
 })
 export class TopRecruitersComponent {
-
   public recruiters = [
     {
       id: 0,
