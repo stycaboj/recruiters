@@ -9,7 +9,7 @@
     <mat-card class="flex flex-col py-6 px-8 my-4 !rounded bg-white" *ngFor="let vacancy of vacancies">
         <div class="flex justify-between items-center flex-wrap">
             <div class="flex">
-                <div class="flex justify-center items-center text-2xl font-semibold w-20 h-20 rounded text-coral bg-lcoral">{{ vacancy.icon }}</div>
+                <div class="flex justify-center items-center text-2xl font-semibold w-20 h-20 rounded text-coral bg-lcoral">{{ getIcon(vacancy) }}</div>
                 <div>
                     <a href="#" class="flex font-bold text-lg text-blue px-4 pt-4 flex-wrap">
                         <div>{{ vacancy.name }}</div>

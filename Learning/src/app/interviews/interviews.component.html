@@ -1,5 +1,79 @@
 <div class="page-container">
-    <div class="interviews">
-
+    <div class="flex flex-col p-6 rounded bg-white">
+        <div class="flex justify-between items-center">
+            <div>
+                <div class="font-bold text-blue text-base">
+                    Interviews
+                </div>
+                <div class="font-semibold text-gray text-base">
+                    There are {{interviews.length}} interviews
+                </div>
+            </div>
+            <button mat-button color="primary" class="!font-bold !text-blue !bg-lblue">
+                <mat-icon class="!font-bold">
+                    add
+                </mat-icon>
+                New Member
+            </button>
+        </div>
+        <table mat-table [dataSource]="interviews" class="mt-4">
+            <ng-container matColumnDef="vacancy">
+                <th mat-header-cell *matHeaderCellDef class="!font-bold !text-gray !bg-lgray !rounded-l"> Vacancy </th>
+                <td mat-cell *matCellDef="let interview">
+                    <div class="flex items-center mt-5 -ml-4">
+                        <div class="flex justify-center items-center text-base font-semibold w-14 h-14 rounded text-coral bg-lcoral mr-4">
+                            {{ getIcon(interview) }}
+                        </div>
+                        <div>
+                            <div class="text-base text-blue font-semibold">{{ interview.vacancyTitle }}</div>
+                            <div class="text-base text-gray font-semibold">{{ interview.vacancyDescription }}</div>
+                        </div>
+                    </div>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="recruiter">
+                <th mat-header-cell *matHeaderCellDef class="!font-bold !text-gray !bg-lgray"> Recruiter </th>
+                <td mat-cell *matCellDef="let interview">
+                    <div>
+                        <div class="text-base text-blue font-semibold">{{ interview.recruiterTitle }}</div>
+                        <div class="text-base text-gray font-semibold">{{ interview.recruiterDescription }}</div>
+                    </div>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="time">
+                <th mat-header-cell *matHeaderCellDef class="!font-bold !text-gray !bg-lgray"> Time </th>
+                <td mat-cell *matCellDef="let interview">
+                    <div>
+                        <div class="text-base text-blue font-semibold">{{ interview.timeTitle }}</div>
+                        <div class="text-base text-gray font-semibold">{{ interview.timeDescription }}</div>
+                    </div>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="candidate">
+                <th mat-header-cell *matHeaderCellDef class="!font-bold !text-gray !bg-lgray"> Candidate
+                </th>
+                <td mat-cell *matCellDef="let interview">
+                    <div>
+                        <div class="text-base text-blue font-semibold">{{ interview.candidateTitle }}</div>
+                        <div class="text-base text-gray font-semibold">{{ interview.candidateDescription }}</div>
+                    </div>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="buttons">
+                <th mat-header-cell *matHeaderCellDef class="!font-bold !text-gray !bg-lgray !rounded-r"></th>
+                <td mat-cell *matCellDef="let interview">
+                    <div class="flex justify-between max-w-24 flex-1 ml-auto">
+                        <button mat-mini-fab class="!bg-lgray">
+                            <mat-icon class="!text-gray">edit</mat-icon>
+                        </button>
+                        <button mat-mini-fab class="!bg-lgray">
+                            <mat-icon class="!text-gray">delete</mat-icon>
+                        </button>
+                    </div>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+        </table>
     </div>
 </div>

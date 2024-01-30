@@ -7,6 +7,10 @@ import { RecruitersComponent } from '../recruiters/recruiters.component';
   styleUrl: './vacancies.component.scss',
 })
 export class VacanciesComponent implements OnInit {
+  getIcon(vacancy: any): string {
+    return vacancy.name.slice(0, 3).toUpperCase();
+  }
+
   public vacancies = [
     {
       id: 0,
