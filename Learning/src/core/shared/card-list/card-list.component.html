@@ -8,14 +8,14 @@
         <mat-card *ngFor="let item of items" class="!m-5 !min-w-52 !max-w-92 !h-60 !bg-lteal">
             <div class="font-bold bg-teal p-4 rounded-t" [ngClass]="'text-' + itemNameColor">
                 <div>
-                    {{ item.name }}
+                    {{ item.firstName + ' ' + item.lastName }}
                 </div>
             </div>
             <div class="flex flex-col items-center">
                 <img src="../../assets/img/photo.jpg"  class="m-4 rounded max-w-28">
                 <div class="font-bold text-turquoise mb-4">
                     <div>
-                        {{ item.description }}
+                        {{ item.email }}
                     </div>
                 </div>
             </div>

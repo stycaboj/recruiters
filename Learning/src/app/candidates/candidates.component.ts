@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { CandidatesService } from '../../core/services/candidates.service';
+import { CandidateModel } from '../../core/models/candidate.model';
 
 @Component({
   selector: 'app-candidates',
@@ -6,22 +8,13 @@ import { Component } from '@angular/core';
   styleUrl: './candidates.component.scss'
 })
 export class CandidatesComponent {
-  public candidates = [
-    {
-      id: 0,
-      fullname: 'Harry Potter',
-      number: '+7 (952) 812-52-52',
-      mail: 'abobus@gmail.com',
-      date: '02.02.2002',
-      tags: ['HTML', 'CSS', 'JavaScript', 'Angular'],
-    },
-    {
-      id: 1,
-      fullname: 'Jerald Lewis',
-      number: '+7 (952) 812-52-52',
-      mail: 'j.lewis@gmail.com',
-      date: '01.09.2016',
-      tags: ['C#'],
-    }
-  ]
+  public candidates: CandidateModel[] = [];
+
+  constructor(private readonly candidatesService: CandidatesService) { }
+
+  ngOnInit() {
+    this.candidatesService.get().subscribe((data) => {
+      this.candidates = data;
+    });
+  }
 }

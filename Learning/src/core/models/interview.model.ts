@@ -1,11 +1,11 @@
+import { CandidateModel } from "./candidate.model";
+import { RecruiterModel } from "./recruiter.model";
+import { VacancyModel } from "./vacancy.model";
+
 export interface InterviewModel {
     id: number;
-    vacancyTitle: string;
-    vacancyDescription: string;
-    recruiterTitle: string;
-    recruiterDescription: string;
-    timeTitle: string;
-    timeDescription: string;
-    candidateTitle: string;
-    candidateDescription: string;
+    vacancy: VacancyModel;
+    recruiter: RecruiterModel;
+    candidate: CandidateModel;
+    dateTime: Date;
 }

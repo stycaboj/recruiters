@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
 import { CardModel } from '../../core/models/card.model';
+import { RecruiterModel } from '../../core/models/recruiter.model';
+import { RecruitersService } from '../../core/services/recruiters.service';
+import { CandidatesService } from '../../core/services/candidates.service';
+import { CandidateModel } from '../../core/models/candidate.model';
+import { RecruitersComponent } from '../recruiters/recruiters.component';
 
 @Component({
   selector: 'app-home',
@@ -7,39 +12,17 @@ import { CardModel } from '../../core/models/card.model';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  public recruiters: CardModel[] = [
-    {
-      id: 0,
-      name: 'Alex de Murzenko',
-      description: 'Mentor'
-    },
-    {
-      id: 1,
-      name: 'Volosatiy',
-      description: 'Trainee'
-    },
-    {
-      id: 2,
-      name: 'Big Baby Tape',
-      description: 'VARSKVA'
-    },
-  ]
+  public recruiters: RecruiterModel[] = [];
+  public candidates: CandidateModel[] = [];
 
-  public vacancies: CardModel[] = [
-    {
-      id: 0,
-      name: 'Looking for a 3 pos in BB Team',
-      description: 'Resolution',
-    },
-    {
-      id: 1,
-      name: 'Angular Junior Developer',
-      description: 'Salary 1000$',
-    },
-    {
-      id: 2,
-      name: '1C Developer',
-      description: '25.000 RUB',
-    }
-  ]
+  constructor(private readonly recruitersService: RecruitersService, private readonly candidatesService: CandidatesService) { }
+
+  ngOnInit() {
+    this.recruitersService.get().subscribe((data) => {
+      this.recruiters = data;
+    });
+    this.candidatesService.get().subscribe((data) => {
+      this.candidates = data;
+    });
+  }
 }

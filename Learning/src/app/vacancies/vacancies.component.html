@@ -12,7 +12,7 @@
                 <div class="flex justify-center items-center text-2xl font-semibold w-20 h-20 rounded text-coral bg-lcoral">{{ getIcon(vacancy) }}</div>
                 <div>
                     <a href="#" class="flex font-bold text-lg text-blue px-4 pt-4 flex-wrap">
-                        <div>{{ vacancy.name }}</div>
+                        <div>{{ vacancy.title }}</div>
                         <div class="mx-2">
                             ({{ vacancy.seniority }})
                         </div>
@@ -31,7 +31,7 @@
                             <mat-icon style="margin-right: 0.5rem;">
                                 calendar_month
                             </mat-icon>
-                            {{ vacancy.date }}
+                            {{ getDate(vacancy) }}
                         </div>
                         <div class="flex items-center pr-4 text-base font-semibold text-gray">
                             <mat-icon style="margin-right: 0.5rem;">

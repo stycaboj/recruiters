@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CardModel } from '../../models/card.model';
+import { RecruiterModel } from '../../models/recruiter.model';
+import { CandidateModel } from '../../models/candidate.model';
 
 @Component({
   selector: 'app-card-list',
@@ -8,6 +10,6 @@ import { CardModel } from '../../models/card.model';
 })
 export class CardListComponent {
   @Input({ required: true }) title!: string;
-  @Input({ required: true }) items!: CardModel[];
+  @Input({ required: true }) items!: RecruiterModel[] | CandidateModel[];
   @Input() itemNameColor?: string;
 }

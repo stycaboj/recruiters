@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { RecruitersService } from '../../core/services/recruiters.service';
+import { RecruiterModel } from '../../core/models/recruiter.model';
+
 
 @Component({
   selector: 'app-recruiters',
@@ -6,20 +9,14 @@ import { Component } from '@angular/core';
   styleUrl: './recruiters.component.scss',
 })
 export class RecruitersComponent {
-  public recruiters = [
-    {
-      id: 0,
-      fullname: 'Abobus Bibitus',
-      number: '+7 (952) 812-52-52',
-      mail: 'abobus@gmail.com',
-      date: '02.02.2002',
-    },
-    {
-      id: 1,
-      fullname: 'Sashok Tennessee',
-      number: '322-322',
-      mail: 'totsamiychel@advance.samp',
-      date: '13.01.2024',
-    },
-  ];
+  public recruiters: RecruiterModel[] = [];
+
+  constructor(private readonly recruitersService: RecruitersService) { }
+
+  ngOnInit() {
+    this.recruitersService.get().subscribe((data) => {
+      this.recruiters = data;
+    });
+  }
+
 }

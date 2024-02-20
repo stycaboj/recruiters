@@ -10,13 +10,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { HighlightDirective } from '../core/directives/highlight.directive';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { CustomInMemoryDbService } from '../core/services/in-memory-db.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    HighlightDirective
-  ],
+  declarations: [AppComponent, HeaderComponent, HighlightDirective],
   imports: [
     CommonModule,
     BrowserModule,
@@ -25,6 +24,10 @@ import { HighlightDirective } from '../core/directives/highlight.directive';
     MatButtonModule,
     MatMenuModule,
     MatIconModule,
+    HttpClientModule,
+    HttpClientInMemoryWebApiModule.forRoot(CustomInMemoryDbService, {
+      dataEncapsulation: false,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],
