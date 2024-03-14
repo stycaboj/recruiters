@@ -1,5 +1,5 @@
 <div class="page-container">
-    <button mat-raised-button color="primary" class="!font-bold !ml-auto !w-10 !min-w-0">
+    <button mat-raised-button color="primary" class="!font-bold !ml-auto !w-10 !min-w-0" (click)="openRecruitersDialog()">
         <div class="flex justify-center items-center">
             <mat-icon class="text-white !font-bold">
                 add
@@ -8,7 +8,7 @@
     </button>
     <mat-card class="flex flex-col p-6 mt-6 !rounded" *ngFor="let recruiter of recruiters">
         <div class="flex flex-wrap items-center">
-            <img src="../../assets/img/photo.jpg" class="w-20 h-20 rounded">
+            <img src="{{ recruiter.image }}" class="w-20 h-20 rounded">
             <div class="flex flex-col flex-1">
                 <div class="flex pb-1">
                     <div class="flex justify-between items-center font-bold text-lg text-blue px-4">
@@ -35,13 +35,13 @@
                         <mat-icon class="mr-2">
                             calendar_month
                         </mat-icon>
-                        {{ recruiter.birthday }}
+                        {{ recruiter.birthday | date: 'dd/MM/yyyy' }}
                     </div>
                 </div>
             </div>
             <div class="flex justify-between flex-wrap max-w-44 flex-1">
-                <button mat-raised-button color="warn" class="!font-bold">DELETE</button>
-                <button mat-raised-button color="primary" class="!font-bold">EDIT</button>
+                <button mat-raised-button color="warn" class="!font-bold" (click)="deleteRecruiter(recruiter)">DELETE</button>
+                <button mat-raised-button color="primary" class="!font-bold" (click)="openPutDialog(recruiter)">EDIT</button>
             </div>
         </div>
     </mat-card>

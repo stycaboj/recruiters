@@ -1,16 +1,14 @@
 <div class="page-container">
-    <button mat-raised-button color="primary" class="!font-bold !ml-auto !w-10 !min-w-0">
+    <button mat-raised-button color="primary" class="!font-bold !ml-auto !w-10 !min-w-0" (click)="openCandidatesDialog()">
         <div class="flex justify-center items-center">
             <mat-icon class="text-white !font-bold">
                 add
             </mat-icon>
         </div>
     </button>
-
-
     <mat-card class="flex flex-col p-6 mt-6 !rounded" *ngFor="let candidate of candidates">
         <div class="flex flex-wrap items-center">
-            <img src="../../assets/img/photo.jpg"  class="w-20 h-20 rounded">
+            <img src="{{ candidate.image }}"  class="w-20 h-20 rounded">
             <div class="flex flex-col flex-1">
                 <div class="flex pb-1">
                     <div class="flex justify-between items-center font-bold text-lg text-blue px-4">
@@ -37,18 +35,18 @@
                         <mat-icon class="mr-2">
                             calendar_month
                         </mat-icon>
-                        {{ candidate.birthday }}
+                        {{ candidate.birthday | date: 'dd/MM/yyyy' }}
                     </div>
                 </div>
             </div>
             <div class="flex justify-between flex-wrap max-w-44 flex-1">
-                <button mat-raised-button color="warn" class="!font-bold">DELETE</button>
-                <button mat-raised-button color="primary" class="!font-bold">EDIT</button>
+                <button mat-raised-button color="warn" class="!font-bold" (click)="deleteCandidate(candidate)">DELETE</button>
+                <button mat-raised-button color="primary" class="!font-bold" (click)="openPutDialog(candidate)">EDIT</button>
             </div>
         </div>
         <div class="my-6 h-0.5 bg-lgray"></div>
-        <div class="text-gray font-semibold">
-            <div class="inline-block text-blue border-2 border-blue rounded p-1 mr-2 text-base"
+        <div class="flex text-gray font-semibold">
+            <div class="text-blue border-2 border-blue rounded p-1 mr-2 text-base"
                 *ngFor="let skill of candidate.skills">
                 {{ skill }}
             </div>

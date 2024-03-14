@@ -3,19 +3,32 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { VacanciesRoutingModule } from './vacancies-routing.module';
 import { VacanciesComponent } from './vacancies.component';
 import { RecruitersService } from '../../core/services/recruiters.service';
+import { DialogVacanciesComponent } from './dialog-vacancies/dialog-vacancies.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PutVacanciesComponent } from './put-vacancies/put-vacancies.component';
 
 @NgModule({
-  declarations: [VacanciesComponent],
+  declarations: [VacanciesComponent, DialogVacanciesComponent, PutVacanciesComponent],
   imports: [
     CommonModule,
     VacanciesRoutingModule,
     MatButtonModule,
     MatIconModule,
     MatCardModule,
+    MatSelectModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
 })

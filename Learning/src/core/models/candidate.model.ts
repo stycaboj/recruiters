@@ -4,6 +4,7 @@ export interface CandidateModel {
     lastName: string;
     phone: string;
     email: string;
-    birthday: string;
-    skills: Array<string>;  
+    birthday: Date;
+    image: string;
+    skills: Array<string>;
 }

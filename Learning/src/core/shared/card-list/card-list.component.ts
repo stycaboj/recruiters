@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { CardModel } from '../../models/card.model';
 import { RecruiterModel } from '../../models/recruiter.model';
 import { CandidateModel } from '../../models/candidate.model';
 

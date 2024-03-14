@@ -3,21 +3,29 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { RecruitersRoutingModule } from './recruiters-routing.module';
 import { RecruitersComponent } from './recruiters.component';
-import { HttpClientModule } from '@angular/common/http';
-import { RecruitersService } from '../../core/services/recruiters.service';
+import { DialogRecruitersComponent } from './dialog-recruiters/dialog-recruiters.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PutRecruitersComponent } from './put-recruiters/put-recruiters.component';
 
 @NgModule({
-  declarations: [RecruitersComponent],
+  declarations: [RecruitersComponent, DialogRecruitersComponent, PutRecruitersComponent],
   imports: [
     CommonModule,
     RecruitersRoutingModule,
     MatButtonModule,
     MatIconModule,
     MatCardModule,
-    HttpClientModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
   ],
   providers: [],
 })

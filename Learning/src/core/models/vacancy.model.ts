@@ -6,4 +6,5 @@ export interface VacancyModel {
     startDate: Date;
     type: string;
     description: string;
+    recruiter: number;
 }

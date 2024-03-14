@@ -4,6 +4,8 @@ import { InterviewModel } from '../models/interview.model';
 import { RecruiterModel } from '../models/recruiter.model';
 import { VacancyModel } from '../models/vacancy.model';
 import { CandidateModel } from '../models/candidate.model';
+import { SeniorityModel } from '../models/seniority.model';
+import { TypeModel } from '../models/type.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +19,8 @@ export class CustomInMemoryDbService implements InMemoryDbService {
         lastName: 'Morozov',
         phone: '+380 67 496-77-92',
         email: 'saniok6652@gmail.com',
-        birthday: '18.09.2001',
+        birthday: new Date('2001, 9, 18'),
+        image: '../../assets/img/image0.jpg'
       },
       {
         id: 1,
@@ -25,27 +28,30 @@ export class CustomInMemoryDbService implements InMemoryDbService {
         lastName: 'Mogobun',
         phone: '+7 (812) 495-66-66',
         email: 'bobongo@gmail.com',
-        birthday: '20.02.2002',
+        birthday: new Date('2002, 2, 20'),
+        image: '../../assets/img/image1.jpg'
       },
       {
         id: 2,
-        firstName: 'Alexey',
-        lastName: 'Navalny',
+        firstName: 'Oleg',
+        lastName: 'Tinkov',
         phone: '+7 (495) 999-99-99',
-        email: 'navalny@gmail.com',
-        birthday: '04.09.1976',
+        email: 'tinkoff@gmail.com',
+        birthday: new Date('1967, 12, 25'),
+        image: '../../assets/img/tinkov.jpg'
       },
     ];
 
     const vacancies: Array<VacancyModel> = [
       {
         id: 0,
-        title: 'Middle Angular Developer',
-        seniority: 'Middle',
-        salary: 2500,
+        title: 'Junior Angular Developer',
+        seniority: 'Junior',
+        salary: 1000,
         startDate: new Date(),
-        type: 'Part time',
+        type: 'Regular',
         description: 'Development of projects',
+        recruiter: 0,
       },
       {
         id: 1,
@@ -53,17 +59,19 @@ export class CustomInMemoryDbService implements InMemoryDbService {
         seniority: 'Middle',
         salary: 2500,
         startDate: new Date(),
-        type: 'Part time',
+        type: 'Part-time',
         description: 'Development of projects',
+        recruiter: 1,
       },
       {
         id: 2,
-        title: 'Middle Angular Developer',
-        seniority: 'Middle',
-        salary: 2500,
+        title: 'Senior Angular Developer',
+        seniority: 'Senior',
+        salary: 5000,
         startDate: new Date(),
-        type: 'Part time',
+        type: 'Regular',
         description: 'Development of projects',
+        recruiter: 2,
       },
     ];
 
@@ -74,7 +82,8 @@ export class CustomInMemoryDbService implements InMemoryDbService {
         lastName: 'Golubev',
         phone: '+7 (951) 914-95-06',
         email: 'artmglbv@gmail.com',
-        birthday: '28.02.2004',
+        birthday: new Date('2004, 2, 28'),
+        image: '../../assets/img/image3.jpg',
         skills: ['HTML', 'CSS', 'JS', 'Angular'],
       },
       {
@@ -82,8 +91,9 @@ export class CustomInMemoryDbService implements InMemoryDbService {
         firstName: 'Harry',
         lastName: 'Potter',
         phone: '+7 (952) 812-52-52',
-        email: 'abobus@gmail.com',
-        birthday: '20.02.2002',
+        email: 'harry_potter@gmail.com',
+        birthday: new Date('1980, 7, 31'),
+        image: '../../assets/img/harry.jpg',
         skills: ['.NET', 'Angular'],
       },
       {
@@ -92,9 +102,20 @@ export class CustomInMemoryDbService implements InMemoryDbService {
         lastName: 'Lewis',
         phone: '+7 (952) 812-52-52',
         email: 'j.lewis@gmail.com',
-        birthday: '01.09.2016',
+        birthday: new Date('2016, 9, 1'),
+        image: '../../assets/img/image5.jpg',
         skills: ['C#', 'SAMP'],
       },
+      {
+        id: 3,
+        firstName: 'Vladislav',
+        lastName: 'Fadeev',
+        phone: '+7 (920) 028-37-43',
+        email: 'fadeevvlad2003@gmail.com',
+        birthday: new Date('2003, 9, 15'),
+        image: '../../assets/img/vlad.jpg',
+        skills: ['HTML', 'Python', 'JavaScript', 'Sass', 'Git', 'PostgreSQL', 'React.js', 'TailwindCSS', 'Express.js', 'Next.js', 'SQL', 'MySQL'],
+      }
     ];
 
     const interviews: Array<InterviewModel> = [
@@ -121,11 +142,43 @@ export class CustomInMemoryDbService implements InMemoryDbService {
       },
     ];
 
+    const seniorities: Array<SeniorityModel> = [
+      {
+        id: 0,
+        name: 'Trainee',
+      },
+      {
+        id: 1,
+        name: 'Junior',
+      },
+      {
+        id: 2,
+        name: 'Middle',
+      },
+      {
+        id: 3,
+        name: 'Senior',
+      }
+    ];
+
+    const types: Array<TypeModel> = [
+      {
+        id: 0,
+        name: 'Part-time',
+      },
+      {
+        id: 1,
+        name: 'Regular',
+      },
+    ];
+
     return {
       recruiters,
       candidates,
       vacancies,
       interviews,
+      seniorities,
+      types
     };
   }
 }

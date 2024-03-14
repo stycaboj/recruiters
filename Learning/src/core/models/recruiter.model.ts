@@ -4,5 +4,6 @@ export interface RecruiterModel {
     lastName: string;
     phone: string;
     email: string;
-    birthday: string;
+    birthday: Date;
+    image: string;
 }

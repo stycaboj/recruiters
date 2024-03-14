@@ -1,0 +1,47 @@
+<form [formGroup]="form">
+    <div class="flex flex-col p-6">
+        <div class="font-bold text-base mb-4">
+            Interview Create
+        </div>
+        <mat-form-field>
+            <mat-label>Vacancy</mat-label>
+            <mat-select formControlName="vacancy">
+                @for (vacancy of vacancies; track vacancy) {
+                <mat-option [value]="vacancy.title">{{vacancy.title}}</mat-option>
+                }
+            </mat-select>
+            <mat-error *ngIf="form.get('firstName')?.hasError('required')">This field is required</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Recruiter</mat-label>
+            <mat-select formControlName="recruiter">
+                @for (recruiter of recruiters; track recruiter) {
+                <mat-option [value]="recruiter.firstName + ' ' + recruiter.lastName">{{recruiter.firstName + ' ' +
+                    recruiter.lastName}}</mat-option>
+                }
+            </mat-select>
+            <mat-error *ngIf="form.get('recruiter')?.hasError('required')">This field is required</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Candidate</mat-label>
+            <mat-select formControlName="candidate">
+                @for (candidate of candidates; track candidate) {
+                <mat-option [value]="candidate.firstName + ' ' + candidate.lastName">{{candidate.firstName + ' ' +
+                    candidate.lastName}}</mat-option>
+                }
+            </mat-select>
+            <mat-error *ngIf="form.get('candidate')?.hasError('required')">This field is required</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="date">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="form.get('date')?.hasError('required')">This field is required</mat-error>
+        </mat-form-field>
+        <div class="flex justify-between flex-wrap max-w-44 flex-1">
+            <button mat-raised-button color="primary" class="!font-bold" [disabled]="!form.valid" (click)="save()">SAVE</button>
+            <button mat-raised-button color="warn" class="!font-bold" (click)="cancel()">CANCEL</button>
+        </div>
+    </div>
+</form>

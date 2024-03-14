@@ -1,15 +1,17 @@
 import { Component } from '@angular/core';
 import { InterviewModel } from '../../core/models/interview.model';
 import { InterviewsService } from '../../core/services/interview.service';
-import { VacancyModel } from '../../core/models/vacancy.model';
 import { CandidateModel } from '../../core/models/candidate.model';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogInterviewsComponent } from './dialog-interviews/dialog-interviews.component';
+import { PutInterviewsComponent } from './put-interviews/put-interviews.component';
 
 @Component({
   selector: 'app-interviews',
   templateUrl: './interviews.component.html',
   styleUrl: './interviews.component.scss',
 })
-export class InterviewsComponent {  
+export class InterviewsComponent {
   public columnsToDisplay = [
     'vacancy',
     'recruiter',
@@ -20,33 +22,66 @@ export class InterviewsComponent {
 
   public interviews: InterviewModel[] = [];
 
-  constructor(private readonly interviewsService: InterviewsService) { }
+  constructor(
+    private readonly interviewsService: InterviewsService,
+    private dialog: MatDialog
+  ) {}
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.interviewsService.get().subscribe((data) => {
       this.interviews = data;
     });
   }
 
-  getDate(vacancy: VacancyModel): string {
-    const startDate = new Date(vacancy.startDate);
-    const day = startDate.getDate();
-    const month = (startDate.getMonth() + 1).toString().padStart(2, '0');
-    const year = startDate.getFullYear();
-  
-    return `${day}.${month}.${year}`;
-  }
-
-  getTime(vacancy: VacancyModel): string {
-    const startDate = new Date(vacancy.startDate);
-    const hour = (startDate.getHours()).toString().padStart(2, '0');
-    const min = startDate.getMinutes();
-  
-    return `${hour}:${min}`;
-  }
-
-  getSkills(candidate: CandidateModel) {
+  public getSkills(candidate: CandidateModel): string {
     const skills = candidate.skills;
     return skills.join(', ');
+  }
+
+  public openInterviewsDialog(): void {
+    const dialogRef = this.dialog.open(DialogInterviewsComponent, {
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.addInterview(result);
+      }
+    });
+  }
+
+  public openPutDialog(interview: InterviewModel): void {
+    const dialogRef = this.dialog.open(PutInterviewsComponent, {
+      width: '400px',
+      data: interview, // передача данных редактируемого элемента в попап
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.updateInterview(result);
+      }
+    });
+  }
+
+  private addInterview(newInterview: InterviewModel): void {
+    this.interviewsService.post(newInterview).subscribe((addedInterview) => {
+      this.interviews.push(addedInterview);
+    });
+  }
+
+  public deleteInterview(interview: InterviewModel): void {
+    this.interviews = this.interviews.filter(arr => arr !== interview)
+    this.interviewsService.delete(interview.id).subscribe();
+  }
+
+  private updateInterview(updatedInterview: InterviewModel): void {
+    const index = this.interviews.findIndex(
+      (i) => i.id === updatedInterview.id
+    );
+    if (index !== -1) {
+      this.interviewsService.put(updatedInterview).subscribe(() => {
+        this.interviews[index] = updatedInterview;
+      });
+    }
   }
 }
