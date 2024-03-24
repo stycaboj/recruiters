@@ -1,17 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RecruitersService } from '../../core/services/recruiters.service';
 import { RecruiterModel } from '../../core/models/recruiter.model';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogRecruitersComponent } from './dialog-recruiters/dialog-recruiters.component';
 import { PutRecruitersComponent } from './put-recruiters/put-recruiters.component';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-recruiters',
   templateUrl: './recruiters.component.html',
   styleUrl: './recruiters.component.scss',
 })
-export class RecruitersComponent {
+export class RecruitersComponent implements OnInit, OnDestroy {
   public recruiters: RecruiterModel[] = [];
+  public destroy$ = new Subject();
 
   constructor(
     private readonly recruitersService: RecruitersService,
@@ -19,9 +21,17 @@ export class RecruitersComponent {
   ) {}
 
   public ngOnInit(): void {
-    this.recruitersService.get().subscribe((data) => {
-      this.recruiters = data;
-    });
+    this.recruitersService
+      .get()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        this.recruiters = data;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(null);
+    this.destroy$.complete();
   }
 
   public openRecruitersDialog(): void {
@@ -29,11 +39,14 @@ export class RecruitersComponent {
       width: '400px',
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.addRecruiter(result);
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result) => {
+        if (result) {
+          this.addRecruiter(result);
+        }
+      });
   }
 
   public openPutDialog(recruiter: RecruiterModel): void {
@@ -42,22 +55,31 @@ export class RecruitersComponent {
       data: recruiter, // передача данных редактируемого элемента в попап
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.updateRecruiter(result);
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result) => {
+        if (result) {
+          this.updateRecruiter(result);
+        }
+      });
   }
 
   private addRecruiter(newRecruiter: RecruiterModel): void {
-    this.recruitersService.post(newRecruiter).subscribe((addedRecruiter) => {
-      this.recruiters.push(addedRecruiter);
-    });
+    this.recruitersService
+      .post(newRecruiter)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((addedRecruiter) => {
+        this.recruiters.push(addedRecruiter);
+      });
   }
 
   public deleteRecruiter(recruiter: RecruiterModel): void {
     this.recruiters = this.recruiters.filter((arr) => arr !== recruiter);
-    this.recruitersService.delete(recruiter.id).subscribe();
+    this.recruitersService
+      .delete(recruiter.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
   }
 
   private updateRecruiter(updatedRecruiter: RecruiterModel): void {
@@ -65,9 +87,12 @@ export class RecruitersComponent {
       (r) => r.id === updatedRecruiter.id
     );
     if (index !== -1) {
-      this.recruitersService.put(updatedRecruiter).subscribe(() => {
-        this.recruiters[index] = updatedRecruiter;
-      });
+      this.recruitersService
+        .put(updatedRecruiter)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(() => {
+          this.recruiters[index] = updatedRecruiter;
+        });
     }
   }
 }

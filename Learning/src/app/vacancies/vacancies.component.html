@@ -1,5 +1,5 @@
 <div class="page-container">
-    <button mat-raised-button color="primary" class="!font-bold !ml-auto !w-10 !min-w-0" (click)="openVacanciesDialog()">
+    <button mat-raised-button class="!font-bold !ml-auto !w-10 !min-w-0 !bg-rblue" (click)="openVacanciesDialog()">
         <div class="flex justify-center items-center">
             <mat-icon class="text-white !font-bold">
                 add
@@ -44,8 +44,8 @@
             </div>
             <div class="flex justify-between items-center flex-wrap max-w-60 flex-1">
                 <img [src]="imageOfRecruiter(vacancy.recruiter)" class="w-12 rounded-10xl">
-                <button mat-raised-button color="warn" class="!font-bold" (click)="deleteVacancy(vacancy)">DELETE</button>
-                <button mat-raised-button color="primary" class="!font-bold" (click)="openPutDialog(vacancy)">EDIT</button>
+                <button mat-raised-button color="warn" class="!font-bold !bg-coral !text-white" (click)="deleteVacancy(vacancy)">DELETE</button>
+                <button mat-raised-button color="primary" class="!font-bold !bg-rblue !text-white" (click)="openPutDialog(vacancy)">EDIT</button>
             </div>
         </div>
         <div class="my-6 h-0.5 bg-lgray"></div>

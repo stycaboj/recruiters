@@ -18,6 +18,7 @@ module.exports = {
       'seagreen': '#2E8B57',
       'coral': '#e06d6d',
       'lcoral': '#fac4c4',
+      'red': '#ff0000',
     },
     fontWeight: {
       semibold: '650',

@@ -15,9 +15,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatNativeDateModule } from '@angular/material/core';
 import { LogInHeaderComponent } from './header/log-in-header/log-in-header.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, HighlightDirective, LogInHeaderComponent],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    HighlightDirective,
+    LogInHeaderComponent,
+  ],
   imports: [
     CommonModule,
     BrowserModule,
@@ -26,11 +35,16 @@ import { LogInHeaderComponent } from './header/log-in-header/log-in-header.compo
     MatNativeDateModule,
     MatMenuModule,
     MatIconModule,
+    MatButtonModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(CustomInMemoryDbService, {
       dataEncapsulation: false,
     }),
     MatDialogModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -5,7 +5,7 @@ import { VacancyModel } from '../../core/models/vacancy.model';
 import { RecruiterModel } from '../../core/models/recruiter.model';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogVacanciesComponent } from './dialog-vacancies/dialog-vacancies.component';
-import { switchMap } from 'rxjs';
+import { Subject, switchMap, takeUntil } from 'rxjs';
 import { PutVacanciesComponent } from './put-vacancies/put-vacancies.component';
 
 @Component({
@@ -16,6 +16,7 @@ import { PutVacanciesComponent } from './put-vacancies/put-vacancies.component';
 export class VacanciesComponent implements OnInit {
   public vacancies: VacancyModel[] = [];
   public recruiters: RecruiterModel[] = [];
+  public destroy$ = new Subject();
 
   constructor(
     private readonly vacanciesService: VacanciesService,
@@ -30,7 +31,8 @@ export class VacanciesComponent implements OnInit {
         switchMap((vacancies) => {
           this.vacancies = vacancies;
           return this.recruitersService.get();
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe((recruiters) => {
         this.recruiters = recruiters;
@@ -51,11 +53,14 @@ export class VacanciesComponent implements OnInit {
       width: '400px',
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.addVacancy(result);
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result) => {
+        if (result) {
+          this.addVacancy(result);
+        }
+      });
   }
 
   public openPutDialog(vacancy: VacancyModel): void {
@@ -64,32 +69,42 @@ export class VacanciesComponent implements OnInit {
       data: vacancy, // передача данных редактируемого элемента в попап
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.updateVacancy(result);
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result) => {
+        if (result) {
+          this.updateVacancy(result);
+        }
+      });
   }
 
   private addVacancy(newVacancy: VacancyModel): void {
-    this.vacanciesService.post(newVacancy).subscribe((addedVacancy) => {
-      this.vacancies.push(addedVacancy);
-    });
+    this.vacanciesService
+      .post(newVacancy)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((addedVacancy) => {
+        this.vacancies.push(addedVacancy);
+      });
   }
 
   public deleteVacancy(vacancy: VacancyModel): void {
     this.vacancies = this.vacancies.filter((arr) => arr !== vacancy);
-    this.vacanciesService.delete(vacancy.id).subscribe();
+    this.vacanciesService
+      .delete(vacancy.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
   }
 
   private updateVacancy(updatedVacancy: VacancyModel): void {
-    const index = this.vacancies.findIndex(
-      (v) => v.id === updatedVacancy.id
-    );
+    const index = this.vacancies.findIndex((v) => v.id === updatedVacancy.id);
     if (index !== -1) {
-      this.vacanciesService.put(updatedVacancy).subscribe(() => {
-        this.vacancies[index] = updatedVacancy;
-      });
+      this.vacanciesService
+        .put(updatedVacancy)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(() => {
+          this.vacancies[index] = updatedVacancy;
+        });
     }
   }
 }

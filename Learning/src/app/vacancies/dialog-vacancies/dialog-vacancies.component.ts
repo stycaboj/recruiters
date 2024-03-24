@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SenioritiesService } from '../../../core/services/seniorities.service';
 import { TypesService } from '../../../core/services/types.service';
 import { RecruitersService } from '../../../core/services/recruiters.service';
@@ -13,17 +13,19 @@ import {
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { VacancyModel } from '../../../core/models/vacancy.model';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-dialog-vacancies',
   templateUrl: './dialog-vacancies.component.html',
   styleUrl: './dialog-vacancies.component.scss',
 })
-export class DialogVacanciesComponent {
+export class DialogVacanciesComponent implements OnInit, OnDestroy {
   public seniorities: SeniorityModel[] = [];
   public types: TypeModel[] = [];
   public recruiters: RecruiterModel[] = [];
   public form: FormGroup;
+  public destroy$ = new Subject();
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -44,15 +46,29 @@ export class DialogVacanciesComponent {
   }
 
   public ngOnInit(): void {
-    this.senioritiesService.get().subscribe((data) => {
-      this.seniorities = data;
-    });
-    this.typesService.get().subscribe((data) => {
-      this.types = data;
-    });
-    this.recruitersService.get().subscribe((data) => {
-      this.recruiters = data;
-    });
+    this.senioritiesService
+      .get()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        this.seniorities = data;
+      });
+    this.typesService
+      .get()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        this.types = data;
+      });
+    this.recruitersService
+      .get()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        this.recruiters = data;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(null);
+    this.destroy$.complete();
   }
 
   public save(): void {

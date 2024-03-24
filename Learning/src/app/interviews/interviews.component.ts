@@ -1,17 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { InterviewModel } from '../../core/models/interview.model';
 import { InterviewsService } from '../../core/services/interview.service';
 import { CandidateModel } from '../../core/models/candidate.model';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogInterviewsComponent } from './dialog-interviews/dialog-interviews.component';
 import { PutInterviewsComponent } from './put-interviews/put-interviews.component';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-interviews',
   templateUrl: './interviews.component.html',
   styleUrl: './interviews.component.scss',
 })
-export class InterviewsComponent {
+export class InterviewsComponent implements OnInit, OnDestroy {
   public columnsToDisplay = [
     'vacancy',
     'recruiter',
@@ -21,6 +22,7 @@ export class InterviewsComponent {
   ];
 
   public interviews: InterviewModel[] = [];
+  public destroy$ = new Subject();
 
   constructor(
     private readonly interviewsService: InterviewsService,
@@ -28,9 +30,17 @@ export class InterviewsComponent {
   ) {}
 
   public ngOnInit(): void {
-    this.interviewsService.get().subscribe((data) => {
-      this.interviews = data;
-    });
+    this.interviewsService
+      .get()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        this.interviews = data;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(null);
+    this.destroy$.complete();
   }
 
   public getSkills(candidate: CandidateModel): string {
@@ -43,11 +53,14 @@ export class InterviewsComponent {
       width: '400px',
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.addInterview(result);
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result) => {
+        if (result) {
+          this.addInterview(result);
+        }
+      });
   }
 
   public openPutDialog(interview: InterviewModel): void {
@@ -56,22 +69,31 @@ export class InterviewsComponent {
       data: interview, // передача данных редактируемого элемента в попап
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.updateInterview(result);
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result) => {
+        if (result) {
+          this.updateInterview(result);
+        }
+      });
   }
 
   private addInterview(newInterview: InterviewModel): void {
-    this.interviewsService.post(newInterview).subscribe((addedInterview) => {
-      this.interviews.push(addedInterview);
-    });
+    this.interviewsService
+      .post(newInterview)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((addedInterview) => {
+        this.interviews.push(addedInterview);
+      });
   }
 
   public deleteInterview(interview: InterviewModel): void {
-    this.interviews = this.interviews.filter(arr => arr !== interview)
-    this.interviewsService.delete(interview.id).subscribe();
+    this.interviews = this.interviews.filter((arr) => arr !== interview);
+    this.interviewsService
+      .delete(interview.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
   }
 
   private updateInterview(updatedInterview: InterviewModel): void {
@@ -79,9 +101,12 @@ export class InterviewsComponent {
       (i) => i.id === updatedInterview.id
     );
     if (index !== -1) {
-      this.interviewsService.put(updatedInterview).subscribe(() => {
-        this.interviews[index] = updatedInterview;
-      });
+      this.interviewsService
+        .put(updatedInterview)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(() => {
+          this.interviews[index] = updatedInterview;
+        });
     }
   }
 }

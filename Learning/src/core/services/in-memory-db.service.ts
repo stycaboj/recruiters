@@ -6,6 +6,7 @@ import { VacancyModel } from '../models/vacancy.model';
 import { CandidateModel } from '../models/candidate.model';
 import { SeniorityModel } from '../models/seniority.model';
 import { TypeModel } from '../models/type.model';
+import { UserModel } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ export class CustomInMemoryDbService implements InMemoryDbService {
     const recruiters: Array<RecruiterModel> = [
       {
         id: 0,
-        firstName: 'Alex',
+        firstName: 'Aleksandr',
         lastName: 'Morozov',
         phone: '+380 67 496-77-92',
         email: 'saniok6652@gmail.com',
@@ -172,13 +173,33 @@ export class CustomInMemoryDbService implements InMemoryDbService {
       },
     ];
 
+    const users: Array<UserModel> = [
+      {
+        id: 0,
+        login: 'stycaboj',
+        password: 'force',
+        firstName: 'Artem',
+        lastName: 'Golubev',
+        image: '../../assets/img/image3.jpg',
+      },
+      {
+        id: 1,
+        login: 'sashok',
+        password: 'success',
+        firstName: 'Aleksandr',
+        lastName: 'Morozov',
+        image: '../../assets/img/image0.jpg',
+      },
+    ]
+
     return {
       recruiters,
       candidates,
       vacancies,
       interviews,
       seniorities,
-      types
+      types,
+      users
     };
   }
 }
