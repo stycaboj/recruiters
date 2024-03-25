@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { VacanciesService } from '../../core/services/vacancies.service';
 import { RecruitersService } from '../../core/services/recruiters.service';
 import { VacancyModel } from '../../core/models/vacancy.model';
@@ -7,13 +7,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogVacanciesComponent } from './dialog-vacancies/dialog-vacancies.component';
 import { Subject, switchMap, takeUntil } from 'rxjs';
 import { PutVacanciesComponent } from './put-vacancies/put-vacancies.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-vacancies',
   templateUrl: './vacancies.component.html',
   styleUrl: './vacancies.component.scss',
 })
-export class VacanciesComponent implements OnInit {
+export class VacanciesComponent implements OnInit, OnDestroy {
   public vacancies: VacancyModel[] = [];
   public recruiters: RecruiterModel[] = [];
   public destroy$ = new Subject();
@@ -21,10 +22,12 @@ export class VacanciesComponent implements OnInit {
   constructor(
     private readonly vacanciesService: VacanciesService,
     private readonly recruitersService: RecruitersService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private spinner: NgxSpinnerService
   ) {}
 
   public ngOnInit(): void {
+    this.spinner.show();
     this.vacanciesService
       .get()
       .pipe(
@@ -35,8 +38,14 @@ export class VacanciesComponent implements OnInit {
         takeUntil(this.destroy$)
       )
       .subscribe((recruiters) => {
+        this.spinner.hide();
         this.recruiters = recruiters;
       });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(null);
+    this.destroy$.complete();
   }
 
   public getIcon(vacancy: VacancyModel): string {

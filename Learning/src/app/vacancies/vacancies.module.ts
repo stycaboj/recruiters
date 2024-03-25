@@ -9,14 +9,18 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { VacanciesRoutingModule } from './vacancies-routing.module';
 import { VacanciesComponent } from './vacancies.component';
-import { RecruitersService } from '../../core/services/recruiters.service';
 import { DialogVacanciesComponent } from './dialog-vacancies/dialog-vacancies.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PutVacanciesComponent } from './put-vacancies/put-vacancies.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
-  declarations: [VacanciesComponent, DialogVacanciesComponent, PutVacanciesComponent],
+  declarations: [
+    VacanciesComponent,
+    DialogVacanciesComponent,
+    PutVacanciesComponent,
+  ],
   imports: [
     CommonModule,
     VacanciesRoutingModule,
@@ -28,7 +32,8 @@ import { PutVacanciesComponent } from './put-vacancies/put-vacancies.component';
     MatFormFieldModule,
     MatDatepickerModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxSpinnerModule,
   ],
   providers: [],
 })

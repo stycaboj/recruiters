@@ -1,4 +1,5 @@
 <div class="page-container">
+
     <button mat-raised-button class="!font-bold !ml-auto !w-10 !min-w-0 !bg-rblue" (click)="openVacanciesDialog()">
         <div class="flex justify-center items-center">
             <mat-icon class="text-white !font-bold">
@@ -9,7 +10,9 @@
     <mat-card class="flex flex-col py-6 px-8 my-4 !rounded bg-white" *ngFor="let vacancy of vacancies">
         <div class="flex justify-between items-center flex-wrap">
             <div class="flex">
-                <div class="flex justify-center items-center text-2xl font-semibold w-20 h-20 rounded text-coral bg-lcoral">{{ getIcon(vacancy) }}</div>
+                <div
+                    class="flex justify-center items-center text-2xl font-semibold w-20 h-20 rounded text-coral bg-lcoral">
+                    {{ getIcon(vacancy) }}</div>
                 <div>
                     <a href="#" class="flex font-bold text-lg text-blue px-4 pt-4 flex-wrap">
                         <div>{{ vacancy.title }}</div>
@@ -44,8 +47,10 @@
             </div>
             <div class="flex justify-between items-center flex-wrap max-w-60 flex-1">
                 <img [src]="imageOfRecruiter(vacancy.recruiter)" class="w-12 rounded-10xl">
-                <button mat-raised-button color="warn" class="!font-bold !bg-coral !text-white" (click)="deleteVacancy(vacancy)">DELETE</button>
-                <button mat-raised-button color="primary" class="!font-bold !bg-rblue !text-white" (click)="openPutDialog(vacancy)">EDIT</button>
+                <button mat-raised-button color="warn" class="!font-bold !bg-coral !text-white"
+                    (click)="deleteVacancy(vacancy)">DELETE</button>
+                <button mat-raised-button color="primary" class="!font-bold !bg-rblue !text-white"
+                    (click)="openPutDialog(vacancy)">EDIT</button>
             </div>
         </div>
         <div class="my-6 h-0.5 bg-lgray"></div>
@@ -56,3 +61,6 @@
         </div>
     </mat-card>
 </div>
+<ngx-spinner [fullScreen]="true" [showSpinner]="true" type="ball-spin-clockwise">
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

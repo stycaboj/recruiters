@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserModel } from '../models/user.model';
-import { BehaviorSubject, Observable, map, of, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -40,7 +40,7 @@ export class AuthService {
           this.loggedIn$.next(user);
           localStorage.setItem(this.loggedInKey, JSON.stringify(user));
         }
-        
+
         this.router.navigate(['/home']);
         return user;
       })

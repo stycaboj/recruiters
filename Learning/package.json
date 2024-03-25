@@ -22,6 +22,7 @@
     "@angular/router": "^17.0.0",
     "angular-in-memory-web-api": "^0.17.0",
     "material": "^0.7.8",
+    "ngx-spinner": "^16.0.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"
