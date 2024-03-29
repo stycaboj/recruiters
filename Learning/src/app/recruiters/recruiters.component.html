@@ -18,20 +18,20 @@
                         </mat-icon>
                     </div>
                 </div>
-                <div class="flex flex-wrap px-4">
-                    <div class="flex items-center pr-4 font-semibold text-base text-gray">
+                <div class="flex flex-wrap px-4 text-base">
+                    <div class="flex items-center pr-4 font-semibold text-gray">
                         <mat-icon class="mr-2">
                             call
                         </mat-icon>
                         {{ recruiter.phone }}
                     </div>
-                    <div class="flex items-center pr-4 font-semibold text-base text-gray">
+                    <div class="flex items-center pr-4 font-semibold text-gray">
                         <mat-icon class="mr-2">
                             mail
                         </mat-icon>
                         {{ recruiter.email }}
                     </div>
-                    <div class="flex items-center pr-4 font-semibold text-base text-gray">
+                    <div class="flex items-center pr-4 font-semibold text-gray">
                         <mat-icon class="mr-2">
                             calendar_month
                         </mat-icon>
@@ -46,3 +46,6 @@
         </div>
     </mat-card>
 </div>
+<ngx-spinner [fullScreen]="true" [showSpinner]="true" type="ball-spin-clockwise">
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

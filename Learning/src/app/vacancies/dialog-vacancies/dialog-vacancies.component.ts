@@ -66,7 +66,7 @@ export class DialogVacanciesComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(null);
     this.destroy$.complete();
   }

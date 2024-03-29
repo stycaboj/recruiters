@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 import { UserModel } from '../models/user.model';
 import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { LOGGED_IN_KEY } from '../constans';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly loggedInKey = 'loggedInUser';
+  private readonly loggedInKey = LOGGED_IN_KEY;
   private loggedIn$ = new BehaviorSubject<UserModel | null>(null);
-  public readonly users: Array<UserModel> = [];
 
   constructor(
     private readonly httpClient: HttpClient,

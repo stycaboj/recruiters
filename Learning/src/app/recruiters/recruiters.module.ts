@@ -12,6 +12,7 @@ import { RecruitersComponent } from './recruiters.component';
 import { DialogRecruitersComponent } from './dialog-recruiters/dialog-recruiters.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PutRecruitersComponent } from './put-recruiters/put-recruiters.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [RecruitersComponent, DialogRecruitersComponent, PutRecruitersComponent],
@@ -26,6 +27,7 @@ import { PutRecruitersComponent } from './put-recruiters/put-recruiters.componen
     FormsModule,
     ReactiveFormsModule,
     MatDatepickerModule,
+    NgxSpinnerModule
   ],
   providers: [],
 })

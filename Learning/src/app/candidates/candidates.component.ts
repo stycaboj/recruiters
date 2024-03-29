@@ -4,7 +4,8 @@ import { CandidatesService } from '../../core/services/candidates.service';
 import { CandidateModel } from '../../core/models/candidate.model';
 import { DialogCandidatesComponent } from './dialog-candidates/dialog-candidates.component';
 import { PutCandidatesComponent } from './put-candidates/put-candidates.component';
-import { Subject, takeUntil } from 'rxjs';
+import { filter, Subject, takeUntil } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-candidates',
@@ -17,19 +18,22 @@ export class CandidatesComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly candidatesService: CandidatesService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly spinner: NgxSpinnerService
   ) {}
 
   public ngOnInit(): void {
+    this.spinner.show();
     this.candidatesService
       .get()
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
+        this.spinner.hide();
         this.candidates = data;
       });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(null);
     this.destroy$.complete();
   }
@@ -41,11 +45,12 @@ export class CandidatesComponent implements OnInit, OnDestroy {
 
     dialogRef
       .afterClosed()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((item) => item) // вместо if
+      )
       .subscribe((result) => {
-        if (result) {
-          this.addCandidate(result);
-        }
+        this.addCandidate(result);
       });
   }
 
@@ -57,11 +62,12 @@ export class CandidatesComponent implements OnInit, OnDestroy {
 
     dialogRef
       .afterClosed()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((item) => item)
+      )
       .subscribe((result) => {
-        if (result) {
-          this.updateCandidate(result);
-        }
+        this.updateCandidate(result);
       });
   }
 
@@ -75,7 +81,7 @@ export class CandidatesComponent implements OnInit, OnDestroy {
   }
 
   public deleteCandidate(candidate: CandidateModel): void {
-    this.candidates = this.candidates.filter((arr) => arr !== candidate);
+    this.candidates = this.candidates.filter((item) => item !== candidate);
     this.candidatesService
       .delete(candidate.id)
       .pipe(takeUntil(this.destroy$))
@@ -83,10 +89,14 @@ export class CandidatesComponent implements OnInit, OnDestroy {
   }
 
   private updateCandidate(updatedCandidate: CandidateModel): void {
-    const index = this.candidates.findIndex(
-      (c) => c.id === updatedCandidate.id
-    );
-    if (index !== -1) {
+    let index = 0;
+    const candidate = this.candidates.find((item, candidateIndex) => {
+      if (item.id === updatedCandidate.id) {
+        index = candidateIndex;
+      }
+      return item.id === updatedCandidate.id;
+    });
+    if (candidate) {
       this.candidatesService
         .put(updatedCandidate)
         .pipe(takeUntil(this.destroy$))

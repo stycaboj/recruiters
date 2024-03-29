@@ -34,7 +34,7 @@ export class LogInHeaderComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.authService
       .getUser()
       .pipe(takeUntil(this.destroy$))
@@ -43,7 +43,7 @@ export class LogInHeaderComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(null);
     this.destroy$.complete();
   }
@@ -51,24 +51,19 @@ export class LogInHeaderComponent implements OnInit, OnDestroy {
   public login(login: string, password: string): void {
     this.authService
       .login(login, password)
-      ?.pipe(
+      .pipe(
         tap((item) => {
           if (item) {
             this.invalidLogIn = false;
             this.dialogRef.close();
             return;
+          } else {
+            this.invalidLogIn = true;
           }
-          this.invalidLogIn = true;
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
-    this.authService
-      .get()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((users) => {
-        this.users = users;
-      });
   }
 
   public cancel(): void {

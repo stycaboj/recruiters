@@ -13,9 +13,9 @@ import { Subject, takeUntil } from 'rxjs';
 export class HeaderComponent implements OnInit, OnDestroy {
   public user: UserModel | null = null;
   public destroy$ = new Subject();
-  constructor(private authService: AuthService, private dialog: MatDialog) {}
+  constructor(private readonly authService: AuthService, private readonly dialog: MatDialog) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.authService
       .getUser()
       .pipe(takeUntil(this.destroy$))
@@ -24,13 +24,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(null);
     this.destroy$.complete();
-  }
-
-  public isLoggedIn(): boolean {
-    return !!this.user;
   }
 
   public logout(): void {

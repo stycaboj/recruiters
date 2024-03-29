@@ -13,7 +13,7 @@ import { RecruitersService } from '../../../core/services/recruiters.service';
 import { VacancyModel } from '../../../core/models/vacancy.model';
 import { CandidateModel } from '../../../core/models/candidate.model';
 import { RecruiterModel } from '../../../core/models/recruiter.model';
-import { Subject, takeUntil } from 'rxjs';
+import { forkJoin, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-put-interviews',
@@ -52,27 +52,18 @@ export class PutInterviewsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.vacanciesService
-      .get()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        this.vacancies = data;
-      });
-    this.candidatesService
-      .get()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        this.candidates = data;
-      });
-    this.recruitersService
-      .get()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        this.recruiters = data;
-      });
+    forkJoin([
+      this.vacanciesService.get().pipe(takeUntil(this.destroy$)),
+      this.candidatesService.get().pipe(takeUntil(this.destroy$)),
+      this.recruitersService.get().pipe(takeUntil(this.destroy$)),
+    ]).subscribe(([vacancies, candidates, recruiters]) => {
+      (this.vacancies = vacancies),
+      (this.candidates = candidates),
+      (this.recruiters = recruiters);
+    });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(null);
     this.destroy$.complete();
   }

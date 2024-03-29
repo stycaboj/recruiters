@@ -13,6 +13,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DialogInterviewsComponent } from './dialog-interviews/dialog-interviews.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PutInterviewsComponent } from './put-interviews/put-interviews.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { PutInterviewsComponent } from './put-interviews/put-interviews.componen
     MatDatepickerModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxSpinnerModule
   ],
   providers: [],
 })

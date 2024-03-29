@@ -1,4 +1,4 @@
-<div class="page-container">
+<div class="page-container text-base">
     <button mat-raised-button class="!font-bold !ml-auto !w-10 !min-w-0 !bg-rblue" (click)="openCandidatesDialog()">
         <div class="flex justify-center items-center">
             <mat-icon class="text-white !font-bold">
@@ -19,19 +19,19 @@
                     </div>
                 </div>
                 <div class="flex flex-wrap px-4">
-                    <div class="flex items-center pr-4 font-semibold text-base text-gray">
+                    <div class="flex items-center pr-4 font-semibold text-gray">
                         <mat-icon class="mr-2">
                             call
                         </mat-icon>
                         {{ candidate.phone }}
                     </div>
-                    <div class="flex items-center pr-4 font-semibold text-base text-gray">
+                    <div class="flex items-center pr-4 font-semibold text-gray">
                         <mat-icon class="mr-2">
                             mail_outline
                         </mat-icon>
                         {{ candidate.email }}
                     </div>
-                    <div class="flex items-center pr-4 font-semibold text-base text-gray">
+                    <div class="flex items-center pr-4 font-semibold text-gray">
                         <mat-icon class="mr-2">
                             calendar_month
                         </mat-icon>
@@ -46,10 +46,13 @@
         </div>
         <div class="my-6 h-0.5 bg-lgray"></div>
         <div class="flex text-gray font-semibold">
-            <div class="text-blue border-2 border-blue rounded p-1 mr-2 text-base"
+            <div class="text-blue border-2 border-blue rounded p-1 mr-2"
                 *ngFor="let skill of candidate.skills">
                 {{ skill }}
             </div>
         </div>
     </mat-card>
 </div>
+<ngx-spinner [fullScreen]="true" [showSpinner]="true" type="ball-spin-clockwise">
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

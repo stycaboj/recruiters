@@ -2,3 +2,6 @@
     <app-card-list title="Top Recruiters" [items]="recruiters" itemNameColor="dteal" class="text-dteal"></app-card-list>
     <app-card-list title="Top Candidates" [items]="candidates" itemNameColor="seagreen"></app-card-list>
 </div>
+<ngx-spinner [fullScreen]="true" [showSpinner]="true" type="ball-spin-clockwise">
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

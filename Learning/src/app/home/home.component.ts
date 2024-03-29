@@ -3,7 +3,8 @@ import { RecruiterModel } from '../../core/models/recruiter.model';
 import { RecruitersService } from '../../core/services/recruiters.service';
 import { CandidatesService } from '../../core/services/candidates.service';
 import { CandidateModel } from '../../core/models/candidate.model';
-import { Subject, takeUntil } from 'rxjs';
+import { forkJoin, Subject, takeUntil } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-home',
@@ -17,25 +18,22 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly recruitersService: RecruitersService,
-    private readonly candidatesService: CandidatesService
+    private readonly candidatesService: CandidatesService,
+    private readonly spinner: NgxSpinnerService
   ) {}
 
   public ngOnInit(): void {
-    this.recruitersService
-      .get()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        this.recruiters = data;
-      });
-    this.candidatesService
-      .get()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        this.candidates = data;
-      });
+    this.spinner.show();
+    forkJoin([
+      this.recruitersService.get().pipe(takeUntil(this.destroy$)),
+      this.candidatesService.get().pipe(takeUntil(this.destroy$)),
+    ]).subscribe(([recruiters, candidates]) => {
+      this.spinner.hide();
+      (this.recruiters = recruiters), (this.candidates = candidates);
+    });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(null);
     this.destroy$.complete();
   }

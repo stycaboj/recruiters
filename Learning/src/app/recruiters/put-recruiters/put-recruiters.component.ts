@@ -19,7 +19,7 @@ export class PutRecruitersComponent {
   public form: FormGroup;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public recruiter: RecruiterModel, // получение переданных данных
+    @Inject(MAT_DIALOG_DATA) public readonly recruiter: RecruiterModel, // получение переданных данных
     private readonly formBuilder: FormBuilder,
     private readonly dialogRef: MatDialogRef<PutRecruitersComponent>
   ) {

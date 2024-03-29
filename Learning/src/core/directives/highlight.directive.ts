@@ -8,9 +8,9 @@ export class HighlightDirective implements OnInit {
 
   @Input() appHighlight: string = 'red';
   
-  constructor(private eleRef: ElementRef) {}
+  constructor(private readonly eleRef: ElementRef) {}
 
-  ngOnInit() {
+  public ngOnInit() {
     this.eleRef.nativeElement.style.background = this.appHighlight;
   }
 }

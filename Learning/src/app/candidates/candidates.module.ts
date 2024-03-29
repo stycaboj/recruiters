@@ -12,6 +12,7 @@ import { CandidatesComponent } from './candidates.component';
 import { DialogCandidatesComponent } from './dialog-candidates/dialog-candidates.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PutCandidatesComponent } from './put-candidates/put-candidates.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [CandidatesComponent, DialogCandidatesComponent, PutCandidatesComponent],
@@ -25,7 +26,8 @@ import { PutCandidatesComponent } from './put-candidates/put-candidates.componen
     MatCardModule,
     MatInputModule,
     MatFormFieldModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    NgxSpinnerModule
   ],
   providers: [],
 })

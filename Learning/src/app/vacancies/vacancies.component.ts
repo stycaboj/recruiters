@@ -5,7 +5,7 @@ import { VacancyModel } from '../../core/models/vacancy.model';
 import { RecruiterModel } from '../../core/models/recruiter.model';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogVacanciesComponent } from './dialog-vacancies/dialog-vacancies.component';
-import { Subject, switchMap, takeUntil } from 'rxjs';
+import { filter, Subject, switchMap, takeUntil } from 'rxjs';
 import { PutVacanciesComponent } from './put-vacancies/put-vacancies.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -22,8 +22,8 @@ export class VacanciesComponent implements OnInit, OnDestroy {
   constructor(
     private readonly vacanciesService: VacanciesService,
     private readonly recruitersService: RecruitersService,
-    private dialog: MatDialog,
-    private spinner: NgxSpinnerService
+    private readonly dialog: MatDialog,
+    private readonly spinner: NgxSpinnerService
   ) {}
 
   public ngOnInit(): void {
@@ -43,7 +43,7 @@ export class VacanciesComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(null);
     this.destroy$.complete();
   }
@@ -64,11 +64,12 @@ export class VacanciesComponent implements OnInit, OnDestroy {
 
     dialogRef
       .afterClosed()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((item) => item)
+      )
       .subscribe((result) => {
-        if (result) {
-          this.addVacancy(result);
-        }
+        this.addVacancy(result);
       });
   }
 
@@ -80,11 +81,12 @@ export class VacanciesComponent implements OnInit, OnDestroy {
 
     dialogRef
       .afterClosed()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((item) => item)
+      )
       .subscribe((result) => {
-        if (result) {
-          this.updateVacancy(result);
-        }
+        this.updateVacancy(result);
       });
   }
 
@@ -98,7 +100,7 @@ export class VacanciesComponent implements OnInit, OnDestroy {
   }
 
   public deleteVacancy(vacancy: VacancyModel): void {
-    this.vacancies = this.vacancies.filter((arr) => arr !== vacancy);
+    this.vacancies = this.vacancies.filter((item) => item !== vacancy);
     this.vacanciesService
       .delete(vacancy.id)
       .pipe(takeUntil(this.destroy$))
@@ -106,8 +108,14 @@ export class VacanciesComponent implements OnInit, OnDestroy {
   }
 
   private updateVacancy(updatedVacancy: VacancyModel): void {
-    const index = this.vacancies.findIndex((v) => v.id === updatedVacancy.id);
-    if (index !== -1) {
+    let index = 0;
+    const vacancy = this.vacancies.find((item, vacancyIndex) => {
+      if (item.id === updatedVacancy.id) {
+        index = vacancyIndex;
+      }
+      return item.id === updatedVacancy.id;
+    });
+    if (vacancy) {
       this.vacanciesService
         .put(updatedVacancy)
         .pipe(takeUntil(this.destroy$))

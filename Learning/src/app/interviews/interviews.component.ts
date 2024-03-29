@@ -5,7 +5,8 @@ import { CandidateModel } from '../../core/models/candidate.model';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogInterviewsComponent } from './dialog-interviews/dialog-interviews.component';
 import { PutInterviewsComponent } from './put-interviews/put-interviews.component';
-import { Subject, takeUntil } from 'rxjs';
+import { filter, Subject, takeUntil } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-interviews',
@@ -26,19 +27,22 @@ export class InterviewsComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly interviewsService: InterviewsService,
-    private dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly spinner: NgxSpinnerService
   ) {}
 
   public ngOnInit(): void {
+    this.spinner.show();
     this.interviewsService
       .get()
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
+        this.spinner.hide();
         this.interviews = data;
       });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(null);
     this.destroy$.complete();
   }
@@ -55,11 +59,12 @@ export class InterviewsComponent implements OnInit, OnDestroy {
 
     dialogRef
       .afterClosed()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((item) => item)
+      )
       .subscribe((result) => {
-        if (result) {
-          this.addInterview(result);
-        }
+        this.addInterview(result);
       });
   }
 
@@ -71,11 +76,12 @@ export class InterviewsComponent implements OnInit, OnDestroy {
 
     dialogRef
       .afterClosed()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((item) => item)
+      )
       .subscribe((result) => {
-        if (result) {
-          this.updateInterview(result);
-        }
+        this.updateInterview(result);
       });
   }
 
@@ -89,7 +95,7 @@ export class InterviewsComponent implements OnInit, OnDestroy {
   }
 
   public deleteInterview(interview: InterviewModel): void {
-    this.interviews = this.interviews.filter((arr) => arr !== interview);
+    this.interviews = this.interviews.filter((item) => item !== interview);
     this.interviewsService
       .delete(interview.id)
       .pipe(takeUntil(this.destroy$))
@@ -97,10 +103,14 @@ export class InterviewsComponent implements OnInit, OnDestroy {
   }
 
   private updateInterview(updatedInterview: InterviewModel): void {
-    const index = this.interviews.findIndex(
-      (i) => i.id === updatedInterview.id
-    );
-    if (index !== -1) {
+    let index = 0;
+    const interview = this.interviews.find((item, interviewIndex) => {
+      if (item.id === updatedInterview.id) {
+        index = interviewIndex;
+      }
+      return item.id === updatedInterview.id;
+    });
+    if (interview) {
       this.interviewsService
         .put(updatedInterview)
         .pipe(takeUntil(this.destroy$))

@@ -4,7 +4,8 @@ import { RecruiterModel } from '../../core/models/recruiter.model';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogRecruitersComponent } from './dialog-recruiters/dialog-recruiters.component';
 import { PutRecruitersComponent } from './put-recruiters/put-recruiters.component';
-import { Subject, takeUntil } from 'rxjs';
+import { filter, Subject, takeUntil } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-recruiters',
@@ -17,19 +18,22 @@ export class RecruitersComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly recruitersService: RecruitersService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly spinner: NgxSpinnerService
   ) {}
 
   public ngOnInit(): void {
+    this.spinner.show();
     this.recruitersService
       .get()
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
+        this.spinner.hide();
         this.recruiters = data;
       });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(null);
     this.destroy$.complete();
   }
@@ -41,11 +45,12 @@ export class RecruitersComponent implements OnInit, OnDestroy {
 
     dialogRef
       .afterClosed()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((item) => item)
+      )
       .subscribe((result) => {
-        if (result) {
-          this.addRecruiter(result);
-        }
+        this.addRecruiter(result);
       });
   }
 
@@ -57,11 +62,12 @@ export class RecruitersComponent implements OnInit, OnDestroy {
 
     dialogRef
       .afterClosed()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((item) => item)
+      )
       .subscribe((result) => {
-        if (result) {
-          this.updateRecruiter(result);
-        }
+        this.updateRecruiter(result);
       });
   }
 
@@ -75,7 +81,7 @@ export class RecruitersComponent implements OnInit, OnDestroy {
   }
 
   public deleteRecruiter(recruiter: RecruiterModel): void {
-    this.recruiters = this.recruiters.filter((arr) => arr !== recruiter);
+    this.recruiters = this.recruiters.filter((item) => item !== recruiter);
     this.recruitersService
       .delete(recruiter.id)
       .pipe(takeUntil(this.destroy$))
@@ -83,10 +89,14 @@ export class RecruitersComponent implements OnInit, OnDestroy {
   }
 
   private updateRecruiter(updatedRecruiter: RecruiterModel): void {
-    const index = this.recruiters.findIndex(
-      (r) => r.id === updatedRecruiter.id
-    );
-    if (index !== -1) {
+    let index = 0;
+    const recruiter = this.recruiters.find((item, recruiterIndex) => {
+      if (item.id === updatedRecruiter.id) {
+        index = recruiterIndex;
+      }
+      return item.id === updatedRecruiter.id;
+    });
+    if (recruiter) {
       this.recruitersService
         .put(updatedRecruiter)
         .pipe(takeUntil(this.destroy$))
