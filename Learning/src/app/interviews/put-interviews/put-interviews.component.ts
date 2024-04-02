@@ -25,7 +25,7 @@ export class PutInterviewsComponent implements OnInit, OnDestroy {
   public candidates: CandidateModel[] = [];
   public recruiters: RecruiterModel[] = [];
   public form: FormGroup;
-  public destroy$ = new Subject();
+  private destroy$ = new Subject();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public interview: InterviewModel, // получение переданных данных
@@ -57,9 +57,9 @@ export class PutInterviewsComponent implements OnInit, OnDestroy {
       this.candidatesService.get().pipe(takeUntil(this.destroy$)),
       this.recruitersService.get().pipe(takeUntil(this.destroy$)),
     ]).subscribe(([vacancies, candidates, recruiters]) => {
-      (this.vacancies = vacancies),
-      (this.candidates = candidates),
-      (this.recruiters = recruiters);
+      this.vacancies = vacancies;
+      this.candidates = candidates;
+      this.recruiters = recruiters;
     });
   }
 

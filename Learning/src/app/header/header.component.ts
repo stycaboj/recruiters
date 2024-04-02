@@ -12,7 +12,7 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   public user: UserModel | null = null;
-  public destroy$ = new Subject();
+  private destroy$ = new Subject();
   constructor(private readonly authService: AuthService, private readonly dialog: MatDialog) {}
 
   public ngOnInit(): void {
@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public OpenLogInDialog(): void {
     this.dialog.open(LogInHeaderComponent, {
-      width: '400px',
+      width: '25rem',
     });
   }
 }

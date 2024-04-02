@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  DoCheck,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { RecruitersService } from '../../core/services/recruiters.service';
 import { RecruiterModel } from '../../core/models/recruiter.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,15 +18,17 @@ import { NgxSpinnerService } from 'ngx-spinner';
   selector: 'app-recruiters',
   templateUrl: './recruiters.component.html',
   styleUrl: './recruiters.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RecruitersComponent implements OnInit, OnDestroy {
+export class RecruitersComponent implements OnInit, DoCheck, OnDestroy {
   public recruiters: RecruiterModel[] = [];
-  public destroy$ = new Subject();
+  private destroy$ = new Subject();
 
   constructor(
     private readonly recruitersService: RecruitersService,
     private readonly dialog: MatDialog,
-    private readonly spinner: NgxSpinnerService
+    private readonly spinner: NgxSpinnerService,
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   public ngOnInit(): void {
@@ -33,6 +42,10 @@ export class RecruitersComponent implements OnInit, OnDestroy {
       });
   }
 
+  public ngDoCheck(): void {
+    console.log('DoCheck');
+  }
+
   public ngOnDestroy(): void {
     this.destroy$.next(null);
     this.destroy$.complete();
@@ -40,7 +53,7 @@ export class RecruitersComponent implements OnInit, OnDestroy {
 
   public openRecruitersDialog(): void {
     const dialogRef = this.dialog.open(DialogRecruitersComponent, {
-      width: '400px',
+      width: '25rem',
     });
 
     dialogRef
@@ -56,7 +69,7 @@ export class RecruitersComponent implements OnInit, OnDestroy {
 
   public openPutDialog(recruiter: RecruiterModel): void {
     const dialogRef = this.dialog.open(PutRecruitersComponent, {
-      width: '400px',
+      width: '25rem',
       data: recruiter, // передача данных редактируемого элемента в попап
     });
 
@@ -76,7 +89,7 @@ export class RecruitersComponent implements OnInit, OnDestroy {
       .post(newRecruiter)
       .pipe(takeUntil(this.destroy$))
       .subscribe((addedRecruiter) => {
-        this.recruiters.push(addedRecruiter);
+        this.recruiters = [...this.recruiters, addedRecruiter];
       });
   }
 

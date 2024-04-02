@@ -14,7 +14,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class HomeComponent implements OnInit, OnDestroy {
   public recruiters: RecruiterModel[] = [];
   public candidates: CandidateModel[] = [];
-  public destroy$ = new Subject();
+  private destroy$ = new Subject();
 
   constructor(
     private readonly recruitersService: RecruitersService,
@@ -29,7 +29,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.candidatesService.get().pipe(takeUntil(this.destroy$)),
     ]).subscribe(([recruiters, candidates]) => {
       this.spinner.hide();
-      (this.recruiters = recruiters), (this.candidates = candidates);
+      this.recruiters = recruiters;
+      this.candidates = candidates;
     });
   }
 

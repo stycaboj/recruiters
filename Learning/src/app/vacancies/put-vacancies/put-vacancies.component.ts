@@ -25,10 +25,10 @@ export class PutVacanciesComponent implements OnInit, OnDestroy {
   public types: TypeModel[] = [];
   public recruiters: RecruiterModel[] = [];
   public form: FormGroup;
-  public destroy$ = new Subject();
+  private destroy$ = new Subject();
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public vacancy: VacancyModel, // получение переданных данных
+    @Inject(MAT_DIALOG_DATA) public readonly vacancy: VacancyModel, // получение переданных данных
     private readonly formBuilder: FormBuilder,
     private readonly dialogRef: MatDialogRef<PutVacanciesComponent>,
     private readonly senioritiesService: SenioritiesService,

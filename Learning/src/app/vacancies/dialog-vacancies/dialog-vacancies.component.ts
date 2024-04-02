@@ -25,7 +25,7 @@ export class DialogVacanciesComponent implements OnInit, OnDestroy {
   public types: TypeModel[] = [];
   public recruiters: RecruiterModel[] = [];
   public form: FormGroup;
-  public destroy$ = new Subject();
+  private destroy$ = new Subject();
 
   constructor(
     private readonly formBuilder: FormBuilder,

@@ -23,7 +23,7 @@ export class InterviewsComponent implements OnInit, OnDestroy {
   ];
 
   public interviews: InterviewModel[] = [];
-  public destroy$ = new Subject();
+  private destroy$ = new Subject();
 
   constructor(
     private readonly interviewsService: InterviewsService,
@@ -54,7 +54,7 @@ export class InterviewsComponent implements OnInit, OnDestroy {
 
   public openInterviewsDialog(): void {
     const dialogRef = this.dialog.open(DialogInterviewsComponent, {
-      width: '400px',
+      width: '25rem',
     });
 
     dialogRef
@@ -70,7 +70,7 @@ export class InterviewsComponent implements OnInit, OnDestroy {
 
   public openPutDialog(interview: InterviewModel): void {
     const dialogRef = this.dialog.open(PutInterviewsComponent, {
-      width: '400px',
+      width: '25rem',
       data: interview, // передача данных редактируемого элемента в попап
     });
 

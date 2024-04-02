@@ -25,7 +25,7 @@ export class DialogInterviewsComponent implements OnInit, OnDestroy {
   public candidates: CandidateModel[] = [];
   public recruiters: RecruiterModel[] = [];
   public form: FormGroup;
-  public destroy$ = new Subject();
+  private destroy$ = new Subject();
 
   constructor(
     private readonly vacanciesService: VacanciesService,
@@ -48,9 +48,9 @@ export class DialogInterviewsComponent implements OnInit, OnDestroy {
       this.candidatesService.get().pipe(takeUntil(this.destroy$)),
       this.recruitersService.get().pipe(takeUntil(this.destroy$)),
     ]).subscribe(([vacancies, candidates, recruiters]) => {
-      (this.vacancies = vacancies),
-      (this.candidates = candidates),
-      (this.recruiters = recruiters);
+      this.vacancies = vacancies;
+      this.candidates = candidates;
+      this.recruiters = recruiters;
     });
   }
 

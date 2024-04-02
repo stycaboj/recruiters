@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { SpinnerModule } from '../../core/shared/spinner/spinner.component.module';
 
 @NgModule({
   declarations: [HomeComponent],
@@ -26,6 +27,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ReactiveFormsModule,
     CardListModule,
     NgxSpinnerModule,
+    SpinnerModule
   ],
   providers: [],
 })

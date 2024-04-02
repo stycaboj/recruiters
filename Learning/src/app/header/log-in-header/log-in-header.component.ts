@@ -19,7 +19,7 @@ export class LogInHeaderComponent implements OnInit, OnDestroy {
   public form: FormGroup;
   public user: UserModel | null = null;
   public users: UserModel[] = [];
-  public destroy$ = new Subject();
+  private destroy$ = new Subject();
   public hide = true;
   public invalidLogIn = false;
 
@@ -56,7 +56,6 @@ export class LogInHeaderComponent implements OnInit, OnDestroy {
           if (item) {
             this.invalidLogIn = false;
             this.dialogRef.close();
-            return;
           } else {
             this.invalidLogIn = true;
           }

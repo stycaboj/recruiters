@@ -17,7 +17,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class VacanciesComponent implements OnInit, OnDestroy {
   public vacancies: VacancyModel[] = [];
   public recruiters: RecruiterModel[] = [];
-  public destroy$ = new Subject();
+  private destroy$ = new Subject();
 
   constructor(
     private readonly vacanciesService: VacanciesService,
@@ -59,7 +59,7 @@ export class VacanciesComponent implements OnInit, OnDestroy {
 
   public openVacanciesDialog(): void {
     const dialogRef = this.dialog.open(DialogVacanciesComponent, {
-      width: '400px',
+      width: '25rem',
     });
 
     dialogRef
@@ -75,7 +75,7 @@ export class VacanciesComponent implements OnInit, OnDestroy {
 
   public openPutDialog(vacancy: VacancyModel): void {
     const dialogRef = this.dialog.open(PutVacanciesComponent, {
-      width: '400px',
+      width: '25rem',
       data: vacancy, // передача данных редактируемого элемента в попап
     });
 
