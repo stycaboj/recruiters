@@ -13,7 +13,7 @@ import { DialogCandidatesComponent } from './dialog-candidates/dialog-candidates
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PutCandidatesComponent } from './put-candidates/put-candidates.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { SpinnerModule } from '../../core/shared/spinner/spinner.component.module';
+import { SpinnerModule } from '../../core/shared/spinner/spinner.module';
 
 @NgModule({
   declarations: [CandidatesComponent, DialogCandidatesComponent, PutCandidatesComponent],

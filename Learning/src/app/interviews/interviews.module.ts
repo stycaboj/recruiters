@@ -14,7 +14,7 @@ import { DialogInterviewsComponent } from './dialog-interviews/dialog-interviews
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PutInterviewsComponent } from './put-interviews/put-interviews.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { SpinnerModule } from '../../core/shared/spinner/spinner.component.module';
+import { SpinnerModule } from '../../core/shared/spinner/spinner.module';
 
 @NgModule({
   declarations: [
