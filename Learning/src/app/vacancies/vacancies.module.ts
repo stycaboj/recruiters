@@ -14,7 +14,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PutVacanciesComponent } from './put-vacancies/put-vacancies.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { SpinnerModule } from '../../core/shared/spinner/spinner.component.module';
+import { SpinnerModule } from '../../core/shared/spinner/spinner.module';
 
 @NgModule({
   declarations: [
