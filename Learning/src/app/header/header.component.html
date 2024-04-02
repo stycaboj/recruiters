@@ -1,8 +1,8 @@
 <div class="flex justify-between p-8 text-blue">
     <div class="flex justify-between items-center max-w-200 flex-1">
-        <div class="text-2xl font-bold">
+        <a [routerLink]="['/home']" class="text-2xl font-bold">
             Onboarding Tracker
-        </div>
+        </a>
         <div class="flex flex-wrap text-base font-bold lg:hidden">
             <a [routerLink]="['/home']" class="mx-4">Home</a>
             <a [routerLink]="['/vacancies']" class="mx-4">Vacancies</a>
@@ -11,17 +11,34 @@
             <a [routerLink]="['/interviews']" class="mx-4">Interviews</a>
         </div>
     </div>
-    <div class="flex justify-between items-center text-base font-bold max-w-68 flex-1 sm:max-w-36">
+    <div class="flex justify-end items-center text-base font-bold sm:max-w-36">
         <div class="cursor-pointer">
             <img src="../../assets/img/flag-usa.svg" alt="usa">
         </div>
-        <img src="../../assets/img/avatar.png" alt="" class="w-8 rounded-2xl">
-        <div class="sm:hidden">Name Surname</div>
-        <a href="#">
-            <button class="bg-lblue text-blue border-0 rounded text-base font-bold p-1">
-                <span class="cursor-pointer">Log out</span>
+        <ng-container *ngIf="user; else login">
+            <img [src]="user.image" class="w-8 rounded-2xl ml-5">
+            <div class="flex sm:hidden ml-4">
+                <div>
+                    {{ user.firstName }}
+                </div>
+                <div class="ml-1">
+                    {{ user.lastName }}
+                </div>
+            </div>
+            <button mat-raised-button
+                class="!bg-lblue !text-blue !border-0 !rounded !text-base !font-bold !p-1 !tracking-normal ml-4"
+                (click)="logout()">
+                Log out
             </button>
-        </a>
+        </ng-container>
+
+        <ng-template #login>
+            <button mat-raised-button
+                class="!bg-lblue !text-blue !border-0 !rounded !text-base !font-bold !p-1 !tracking-normal ml-4"
+                (click)="OpenLogInDialog()">
+                Log in
+            </button>
+        </ng-template>
     </div>
 </div>
 <div class="hidden lg:flex">

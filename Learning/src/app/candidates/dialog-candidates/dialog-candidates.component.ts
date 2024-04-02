@@ -1,0 +1,48 @@
+import { Component } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { CandidateModel } from '../../../core/models/candidate.model';
+
+@Component({
+  selector: 'app-dialog-candidates',
+  templateUrl: './dialog-candidates.component.html',
+  styleUrl: './dialog-candidates.component.scss',
+})
+export class DialogCandidatesComponent {
+  public form: FormGroup;
+
+  constructor(
+    private readonly formBuilder: FormBuilder,
+    private readonly dialogRef: MatDialogRef<DialogCandidatesComponent>
+  ) {
+    this.form = this.formBuilder.group({
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      phone: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      birthday: new FormControl('', Validators.required),
+      skills: new FormControl('', Validators.required),
+    });
+  }
+
+  // TODO skills имитируются
+
+  public save(): void {
+    const newCandidate: CandidateModel = {
+      id: 22,
+      image: '../../../assets/img/photo.jpg',
+      firstName: this.form.value.firstName,
+      lastName: this.form.value.lastName,
+      phone: this.form.value.phone,
+      email: this.form.value.email,
+      birthday: this.form.value.birthday,
+      skills: ['HTML', 'CSS', 'JS', 'Angular'],
+    };
+
+    this.dialogRef.close(newCandidate);
+  }
+
+  public cancel(): void {
+    this.dialogRef.close();
+  }
+}

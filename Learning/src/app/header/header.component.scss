@@ -1,5 +1,9 @@
 @import 'colors';
 
+button[disabled] {
+    background-color: $gray-color;
+}
+
 a {
     text-decoration: none;
 }

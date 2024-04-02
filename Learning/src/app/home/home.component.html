@@ -1,4 +1,5 @@
 <div class="page-container flex-1 text-base">
-    <app-top-recruiters></app-top-recruiters>
-    <app-top-vacancies></app-top-vacancies>
+    <app-card-list title="Top Recruiters" [items]="recruiters" itemNameColor="dteal" class="text-dteal"></app-card-list>
+    <app-card-list title="Top Candidates" [items]="candidates" itemNameColor="seagreen"></app-card-list>
 </div>
+<app-spinner></app-spinner>

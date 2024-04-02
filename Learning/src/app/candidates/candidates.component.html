@@ -1,56 +1,56 @@
-<div class="page-container">
-    <button mat-raised-button color="primary" class="!font-bold !ml-auto !w-10 !min-w-0">
+<div class="page-container text-base">
+    <button mat-raised-button class="!font-bold !ml-auto !w-10 !min-w-0 !bg-rblue" (click)="openCandidatesDialog()">
         <div class="flex justify-center items-center">
             <mat-icon class="text-white !font-bold">
                 add
             </mat-icon>
         </div>
     </button>
-
     <mat-card class="flex flex-col p-6 mt-6 !rounded" *ngFor="let candidate of candidates">
         <div class="flex flex-wrap items-center">
-            <img src="../../assets/img/photo.jpg" alt="" class="w-20 h-20 rounded">
+            <img src="{{ candidate.image }}"  class="w-20 h-20 rounded">
             <div class="flex flex-col flex-1">
                 <div class="flex pb-1">
                     <div class="flex justify-between items-center font-bold text-lg text-blue px-4">
-                        {{ candidate.fullname }}
+                        {{ candidate.firstName + ' ' + candidate.lastName }}
                         <mat-icon class="text-rblue ml-1">
                             person
                         </mat-icon>
                     </div>
                 </div>
                 <div class="flex flex-wrap px-4">
-                    <div class="flex items-center pr-4 font-semibold text-base text-gray">
+                    <div class="flex items-center pr-4 font-semibold text-gray">
                         <mat-icon class="mr-2">
                             call
                         </mat-icon>
-                        {{ candidate.number }}
+                        {{ candidate.phone }}
                     </div>
-                    <div class="flex items-center pr-4 font-semibold text-base text-gray">
+                    <div class="flex items-center pr-4 font-semibold text-gray">
                         <mat-icon class="mr-2">
                             mail_outline
                         </mat-icon>
-                        {{ candidate.mail }}
+                        {{ candidate.email }}
                     </div>
-                    <div class="flex items-center pr-4 font-semibold text-base text-gray">
+                    <div class="flex items-center pr-4 font-semibold text-gray">
                         <mat-icon class="mr-2">
                             calendar_month
                         </mat-icon>
-                        {{ candidate.date }}
+                        {{ candidate.birthday | date: 'dd/MM/yyyy' }}
                     </div>
                 </div>
             </div>
             <div class="flex justify-between flex-wrap max-w-44 flex-1">
-                <button mat-raised-button color="warn" class="!font-bold">DELETE</button>
-                <button mat-raised-button color="primary" class="!font-bold">EDIT</button>
+                <button mat-raised-button color="warn" class="!font-bold !bg-coral !text-white" (click)="deleteCandidate(candidate)">DELETE</button>
+                <button mat-raised-button color="primary" class="!font-bold !bg-rblue !text-white" (click)="openPutDialog(candidate)">EDIT</button>
             </div>
         </div>
         <div class="my-6 h-0.5 bg-lgray"></div>
-        <div class="text-gray font-semibold">
-            <div class="inline-block text-blue border-2 border-blue rounded p-1 mr-2 text-base"
-                *ngFor="let tag of candidate.tags">
-                {{ tag }}
+        <div class="flex text-gray font-semibold">
+            <div class="text-blue border-2 border-blue rounded p-1 mr-2"
+                *ngFor="let skill of candidate.skills">
+                {{ skill }}
             </div>
         </div>
     </mat-card>
 </div>
+<app-spinner></app-spinner>

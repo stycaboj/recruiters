@@ -1,0 +1,28 @@
+<form [formGroup]="form">
+    <div class="flex flex-col p-6">
+        <div class="font-bold text-base mb-4">
+            Welcome back
+        </div>
+        <mat-form-field>
+            <mat-label>Login</mat-label>
+            <input matInput formControlName="login">
+            <mat-error *ngIf="form.get('login')?.hasError('required')">This field is required</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" [type]="hide ? 'password' : 'text'">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('password')?.hasError('required')">This field is required</mat-error>
+            <mat-hint *ngIf="invalidLogIn" class="text-red">Invalid login or password</mat-hint>
+        </mat-form-field>
+        <div class="flex justify-between flex-wrap max-w-44 flex-1">
+            <button mat-raised-button color="primary" class="!font-bold !tracking-normal !bg-seagreen"
+                [disabled]="!form.valid" (click)="login(form.value.login, form.value.password)">Continue</button>
+            <button mat-raised-button color="warn" class="!font-bold !tracking-normal !bg-coral"
+                (click)="cancel()">Cancel</button>
+        </div>
+    </div>
+</form>
