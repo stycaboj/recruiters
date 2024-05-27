@@ -14,9 +14,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PutCandidatesComponent } from './put-candidates/put-candidates.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SpinnerModule } from '../../core/shared/spinner/spinner.module';
+import { ListCandidatesComponent } from './list-candidates/list-candidates.component';
 
 @NgModule({
-  declarations: [CandidatesComponent, DialogCandidatesComponent, PutCandidatesComponent],
+  declarations: [CandidatesComponent, DialogCandidatesComponent, PutCandidatesComponent, ListCandidatesComponent],
   imports: [
     CommonModule,
     CandidatesRoutingModule,

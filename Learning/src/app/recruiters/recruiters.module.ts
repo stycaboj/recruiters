@@ -14,9 +14,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PutRecruitersComponent } from './put-recruiters/put-recruiters.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SpinnerModule } from '../../core/shared/spinner/spinner.module';
+import { ListRecruitersComponent } from './list-recruiters/list-recruiters.component';
 
 @NgModule({
-  declarations: [RecruitersComponent, DialogRecruitersComponent, PutRecruitersComponent],
+  declarations: [RecruitersComponent, DialogRecruitersComponent, PutRecruitersComponent, ListRecruitersComponent],
   imports: [
     CommonModule,
     RecruitersRoutingModule,

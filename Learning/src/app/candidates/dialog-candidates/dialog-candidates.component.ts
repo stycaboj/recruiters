@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { CandidateModel } from '../../../core/models/candidate.model';
@@ -7,6 +7,7 @@ import { CandidateModel } from '../../../core/models/candidate.model';
   selector: 'app-dialog-candidates',
   templateUrl: './dialog-candidates.component.html',
   styleUrl: './dialog-candidates.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DialogCandidatesComponent {
   public form: FormGroup;
@@ -25,7 +26,7 @@ export class DialogCandidatesComponent {
     });
   }
 
-  // TODO skills имитируются
+  // TODO skills имитируются, сделать с помощью multiple select
 
   public save(): void {
     const newCandidate: CandidateModel = {

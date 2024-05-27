@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -6,34 +6,19 @@ import {
   Validators,
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { SeniorityModel } from '../../../core/models/seniority.model';
-import { TypeModel } from '../../../core/models/type.model';
-import { RecruiterModel } from '../../../core/models/recruiter.model';
 import { VacancyModel } from '../../../core/models/vacancy.model';
-import { SenioritiesService } from '../../../core/services/seniorities.service';
-import { TypesService } from '../../../core/services/types.service';
-import { RecruitersService } from '../../../core/services/recruiters.service';
-import { Subject, takeUntil } from 'rxjs';
-
 @Component({
   selector: 'app-put-vacancies',
   templateUrl: './put-vacancies.component.html',
   styleUrl: './put-vacancies.component.scss',
 })
-export class PutVacanciesComponent implements OnInit, OnDestroy {
-  public seniorities: SeniorityModel[] = [];
-  public types: TypeModel[] = [];
-  public recruiters: RecruiterModel[] = [];
+export class PutVacanciesComponent {
   public form: FormGroup;
-  private destroy$ = new Subject();
-
+  // TODO: в put-vacancies и put-interviews не работает data model
   constructor(
-    @Inject(MAT_DIALOG_DATA) public readonly vacancy: VacancyModel, // получение переданных данных
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private readonly formBuilder: FormBuilder,
     private readonly dialogRef: MatDialogRef<PutVacanciesComponent>,
-    private readonly senioritiesService: SenioritiesService,
-    private readonly typesService: TypesService,
-    private readonly recruitersService: RecruitersService
   ) {
     this.form = this.formBuilder.group({
       title: new FormControl('', Validators.required),
@@ -46,46 +31,19 @@ export class PutVacanciesComponent implements OnInit, OnDestroy {
     });
 
     this.form.patchValue({
-      // установка значений из переданных данных в форму
-      title: this.vacancy.title,
-      seniority: this.vacancy.seniority,
-      salary: this.vacancy.salary,
-      date: this.vacancy.startDate,
-      type: this.vacancy.type,
-      recruiter: this.vacancy.recruiter,
-      description: this.vacancy.description,
+      title: this.data.vacancy.title,
+      seniority: this.data.vacancy.seniority,
+      salary: this.data.vacancy.salary,
+      date: this.data.vacancy.startDate,
+      type: this.data.vacancy.type,
+      recruiter: this.data.vacancy.recruiter,
+      description: this.data.vacancy.description,
     });
-  }
-
-  public ngOnInit(): void {
-    this.senioritiesService
-      .get()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        this.seniorities = data;
-      });
-    this.typesService
-      .get()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        this.types = data;
-      });
-    this.recruitersService
-      .get()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        this.recruiters = data;
-      });
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next(null);
-    this.destroy$.complete();
   }
 
   public save(): void {
     const updatedVacancy: VacancyModel = {
-      id: this.vacancy.id,
+      id: this.data.vacancy.id,
       title: this.form.value.title,
       seniority: this.form.value.seniority,
       salary: this.form.value.salary,

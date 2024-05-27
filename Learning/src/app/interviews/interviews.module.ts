@@ -15,10 +15,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PutInterviewsComponent } from './put-interviews/put-interviews.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SpinnerModule } from '../../core/shared/spinner/spinner.module';
+import { ListInterviewsComponent } from './list-interviews/list-interviews.component';
 
 @NgModule({
   declarations: [
-    InterviewsComponent, DialogInterviewsComponent, PutInterviewsComponent
+    InterviewsComponent, DialogInterviewsComponent, PutInterviewsComponent, ListInterviewsComponent
   ],
   imports: [
     CommonModule,

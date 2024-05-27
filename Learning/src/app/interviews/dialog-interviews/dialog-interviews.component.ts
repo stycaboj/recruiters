@@ -1,36 +1,26 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { VacanciesService } from '../../../core/services/vacancies.service';
-import { CandidatesService } from '../../../core/services/candidates.service';
-import { RecruitersService } from '../../../core/services/recruiters.service';
-import { VacancyModel } from '../../../core/models/vacancy.model';
-import { CandidateModel } from '../../../core/models/candidate.model';
-import { RecruiterModel } from '../../../core/models/recruiter.model';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { InterviewModel } from '../../../core/models/interview.model';
-import { forkJoin, Subject, takeUntil } from 'rxjs';
+import { DataInterviewsModel } from '../../../core/models/data-interviews.model';
 
 @Component({
   selector: 'app-dialog-interviews',
   templateUrl: './dialog-interviews.component.html',
   styleUrl: './dialog-interviews.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DialogInterviewsComponent implements OnInit, OnDestroy {
-  public vacancies: VacancyModel[] = [];
-  public candidates: CandidateModel[] = [];
-  public recruiters: RecruiterModel[] = [];
+
+export class DialogInterviewsComponent {
   public form: FormGroup;
-  private destroy$ = new Subject();
 
   constructor(
-    private readonly vacanciesService: VacanciesService,
-    private readonly candidatesService: CandidatesService,
-    private readonly recruitersService: RecruitersService,
+    @Inject(MAT_DIALOG_DATA) public data: DataInterviewsModel,
     private readonly formBuilder: FormBuilder,
     private readonly dialogRef: MatDialogRef<DialogInterviewsComponent>
   ) {
@@ -41,24 +31,7 @@ export class DialogInterviewsComponent implements OnInit, OnDestroy {
       date: new FormControl('', Validators.required),
     });
   }
-
-  public ngOnInit(): void {
-    forkJoin([
-      this.vacanciesService.get().pipe(takeUntil(this.destroy$)),
-      this.candidatesService.get().pipe(takeUntil(this.destroy$)),
-      this.recruitersService.get().pipe(takeUntil(this.destroy$)),
-    ]).subscribe(([vacancies, candidates, recruiters]) => {
-      this.vacancies = vacancies;
-      this.candidates = candidates;
-      this.recruiters = recruiters;
-    });
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next(null);
-    this.destroy$.complete();
-  }
-
+  // TODO: сделать везде генерацию ID
   public save(): void {
     const newInterview: InterviewModel = {
       id: 22,

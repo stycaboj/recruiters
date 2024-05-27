@@ -25,6 +25,9 @@
                     {{ user.lastName }}
                 </div>
             </div>
+            <a [routerLink]="['/settings']" class="ml-3 material-symbols-outlined">
+                settings
+            </a>
             <button mat-raised-button
                 class="!bg-lblue !text-blue !border-0 !rounded !text-base !font-bold !p-1 !tracking-normal ml-4"
                 (click)="logout()">

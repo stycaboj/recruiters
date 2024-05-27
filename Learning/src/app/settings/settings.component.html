@@ -1,0 +1,84 @@
+<div class="page-container" *ngIf="form">
+    <form [formGroup]="form">
+        <mat-card class="text-base">
+            <div class="font-bold text-blue pt-6 pl-6">
+                Permission Settings
+            </div>
+            <div *ngIf="permissions" class="flex flex-col p-6 !rounded">
+                <table class="mat-table">
+                    <tr class="mat-header-row text-sm h-12 text-left">
+                        <th class="mat-header-cell !font-bold !text-gray !bg-lgray !rounded-l pl-4">Tab</th>
+                        <th class="mat-header-cell !font-bold !text-gray !bg-lgray">View</th>
+                        <th class="mat-header-cell !font-bold !text-gray !bg-lgray">Create</th>
+                        <th class="mat-header-cell !font-bold !text-gray !bg-lgray">Edit</th>
+                        <th class="mat-header-cell !font-bold !text-gray !bg-lgray !rounded-r">Delete</th>
+                    </tr>
+                    <tr class="mat-row">
+                        <td>
+                            <div class="mt-6 ml-4 text-blue font-bold text-sm">
+                                Vacancies
+                            </div>
+                        </td>
+                        <td> <app-slide-toggle formControlName="vacanciesView"
+                                [permission]="'VACANCIES_VIEW'"></app-slide-toggle></td>
+                        <td> <app-slide-toggle formControlName="vacanciesCreate"
+                                [permission]="'VACANCIES_CREATE'"></app-slide-toggle></td>
+                        <td> <app-slide-toggle formControlName="vacanciesEdit"
+                                [permission]="'VACANCIES_EDIT'"></app-slide-toggle></td>
+                        <td> <app-slide-toggle formControlName="vacanciesDelete"
+                                [permission]="'VACANCIES_DELETE'"></app-slide-toggle></td>
+                    </tr>
+                    <tr class="mat-row">
+                        <td>
+                            <div class="mt-6 ml-4 text-blue font-bold text-sm">
+                                Recruiters
+                            </div>
+                        </td>
+                        <td> <app-slide-toggle formControlName="recruitersView"
+                                [permission]="'RECRUITERS_VIEW'"></app-slide-toggle> </td>
+                        <td> <app-slide-toggle formControlName="recruitersCreate"
+                                [permission]="'RECRUITERS_CREATE'"></app-slide-toggle> </td>
+                        <td> <app-slide-toggle formControlName="recruitersEdit"
+                                [permission]="'RECRUITERS_EDIT'"></app-slide-toggle> </td>
+                        <td> <app-slide-toggle formControlName="recruitersDelete"
+                                [permission]="'RECRUITERS_DELETE'"></app-slide-toggle> </td>
+
+                    </tr>
+                    <tr class="mat-row">
+                        <td>
+                            <div class="mt-6 ml-4 text-blue font-bold text-sm">
+                                Candidates
+                            </div>
+                        </td>
+                        <td> <app-slide-toggle formControlName="candidatesView"
+                                [permission]="'CANDIDATES_VIEW'"></app-slide-toggle> </td>
+                        <td> <app-slide-toggle formControlName="candidatesCreate"
+                                [permission]="'CANDIDATES_CREATE'"></app-slide-toggle> </td>
+                        <td> <app-slide-toggle formControlName="candidatesEdit"
+                                [permission]="'CANDIDATES_EDIT'"></app-slide-toggle> </td>
+                        <td> <app-slide-toggle formControlName="candidatesDelete"
+                                [permission]="'CANDIDATES_DELETE'"></app-slide-toggle> </td>
+                    </tr>
+                    <tr class="mat-row">
+                        <div class="mt-6 ml-4 text-blue font-bold text-sm">
+                            Interviews
+                        </div>
+                        <td> <app-slide-toggle formControlName="interviewsView"
+                                [permission]="'INTERVIEWS_VIEW'"></app-slide-toggle> </td>
+                        <td> <app-slide-toggle formControlName="interviewsCreate"
+                                [permission]="'INTERVIEWS_CREATE'"></app-slide-toggle> </td>
+                        <td> <app-slide-toggle formControlName="interviewsEdit"
+                                [permission]="'INTERVIEWS_EDIT'"></app-slide-toggle> </td>
+                        <td> <app-slide-toggle formControlName="interviewsDelete"
+                                [permission]="'INTERVIEWS_DELETE'"></app-slide-toggle> </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="flex justify-end">
+                <button mat-raised-button color="primary" class="!mb-6 !mr-6 !font-bold !bg-seagreen"
+                    (click)="save()">SAVE</button>
+            </div>
+        </mat-card>
+    </form>
+</div>
+<app-spinner></app-spinner>

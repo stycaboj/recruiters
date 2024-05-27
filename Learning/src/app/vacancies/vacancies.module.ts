@@ -15,12 +15,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PutVacanciesComponent } from './put-vacancies/put-vacancies.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SpinnerModule } from '../../core/shared/spinner/spinner.module';
+import { ListVacanciesComponent } from './list-vacancies/list-vacancies.component';
 
 @NgModule({
   declarations: [
     VacanciesComponent,
     DialogVacanciesComponent,
     PutVacanciesComponent,
+    ListVacanciesComponent,
   ],
   imports: [
     CommonModule,

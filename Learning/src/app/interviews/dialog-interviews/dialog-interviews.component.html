@@ -6,8 +6,8 @@
         <mat-form-field>
             <mat-label>Vacancy</mat-label>
             <mat-select formControlName="vacancy">
-                @for (vacancy of vacancies; track vacancy) {
-                <mat-option [value]="vacancy.title">{{vacancy.title}}</mat-option>
+                @for (vacancy of data.vacancies; track vacancy) {
+                <mat-option [value]="vacancy">{{vacancy.title}}</mat-option>
                 }
             </mat-select>
             <mat-error *ngIf="form.get('firstName')?.hasError('required')">This field is required</mat-error>
@@ -15,8 +15,8 @@
         <mat-form-field>
             <mat-label>Recruiter</mat-label>
             <mat-select formControlName="recruiter">
-                @for (recruiter of recruiters; track recruiter) {
-                <mat-option [value]="recruiter.firstName + ' ' + recruiter.lastName">{{recruiter.firstName + ' ' +
+                @for (recruiter of data.recruiters; track recruiter) {
+                <mat-option [value]="recruiter">{{recruiter.firstName + ' ' +
                     recruiter.lastName}}</mat-option>
                 }
             </mat-select>
@@ -25,8 +25,8 @@
         <mat-form-field>
             <mat-label>Candidate</mat-label>
             <mat-select formControlName="candidate">
-                @for (candidate of candidates; track candidate) {
-                <mat-option [value]="candidate.firstName + ' ' + candidate.lastName">{{candidate.firstName + ' ' +
+                @for (candidate of data.candidates; track candidate) {
+                <mat-option [value]="candidate">{{candidate.firstName + ' ' +
                     candidate.lastName}}</mat-option>
                 }
             </mat-select>

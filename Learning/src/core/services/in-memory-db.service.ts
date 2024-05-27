@@ -95,7 +95,7 @@ export class CustomInMemoryDbService implements InMemoryDbService {
         email: 'harry_potter@gmail.com',
         birthday: new Date('1980, 7, 31'),
         image: '../../assets/img/harry.jpg',
-        skills: ['.NET', 'Angular'],
+        skills: ['Engilsh', 'Auror'],
       },
       {
         id: 2,

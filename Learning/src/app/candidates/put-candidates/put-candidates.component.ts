@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CandidateModel } from '../../../core/models/candidate.model';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -6,7 +6,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 @Component({
   selector: 'app-put-candidates',
   templateUrl: './put-candidates.component.html',
-  styleUrl: './put-candidates.component.scss'
+  styleUrl: './put-candidates.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PutCandidatesComponent {
   public form: FormGroup;

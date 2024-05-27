@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -14,6 +14,7 @@ import { numberValidator } from '../../../core/validators/number.validator';
   selector: 'app-put-recruiters',
   templateUrl: './put-recruiters.component.html',
   styleUrl: './put-recruiters.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PutRecruitersComponent {
   public form: FormGroup;
@@ -51,7 +52,7 @@ export class PutRecruitersComponent {
       email: this.form.value.email,
       birthday: this.form.value.birthday,
     };
-    
+
     this.dialogRef.close(updatedRecruiter);
   }
 

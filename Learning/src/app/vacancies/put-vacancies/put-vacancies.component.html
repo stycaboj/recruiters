@@ -3,7 +3,6 @@
         <div class="font-bold text-base mb-4">
             Vacancy Edit
         </div>
-        <!-- TODO сделать статус -->
         <mat-form-field>
             <mat-label>Title</mat-label>
             <input matInput formControlName="title">
@@ -12,7 +11,7 @@
         <mat-form-field>
             <mat-label>Seniority</mat-label>
             <mat-select formControlName="seniority">
-                @for (seniority of seniorities; track seniority) {
+                @for (seniority of data.seniorities; track seniority) {
                 <mat-option [value]="seniority.name">{{seniority.name}}</mat-option>
                 }
             </mat-select>
@@ -33,7 +32,7 @@
         <mat-form-field>
             <mat-label>Type</mat-label>
             <mat-select formControlName="type">
-                @for (type of types; track type) {
+                @for (type of data.types; track type) {
                 <mat-option [value]="type.name">{{type.name}}</mat-option>
                 }
             </mat-select>
@@ -42,8 +41,8 @@
         <mat-form-field>
             <mat-label>Recruiter</mat-label>
             <mat-select formControlName="recruiter">
-                @for (recruiter of recruiters; track recruiter) {
-                <mat-option [value]="recruiter.firstName + ' ' + recruiter.lastName">{{recruiter.firstName + ' ' +
+                @for (recruiter of data.recruiters; track recruiter) {
+                <mat-option [value]="recruiter.id">{{recruiter.firstName + ' ' +
                     recruiter.lastName}}</mat-option>
                 }
             </mat-select>

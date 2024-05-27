@@ -1,19 +1,32 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CandidatesService } from '../../core/services/candidates.service';
 import { CandidateModel } from '../../core/models/candidate.model';
 import { DialogCandidatesComponent } from './dialog-candidates/dialog-candidates.component';
 import { PutCandidatesComponent } from './put-candidates/put-candidates.component';
-import { filter, Subject, takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  filter,
+  Observable,
+  Subject,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-candidates',
   templateUrl: './candidates.component.html',
   styleUrl: './candidates.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CandidatesComponent implements OnInit, OnDestroy {
-  public candidates: CandidateModel[] = [];
+  public candidates$ = new BehaviorSubject<Array<CandidateModel> | null>(null);
   private destroy$ = new Subject();
 
   constructor(
@@ -24,13 +37,7 @@ export class CandidatesComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.spinner.show();
-    this.candidatesService
-      .get()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        this.spinner.hide();
-        this.candidates = data;
-      });
+    this.getCandidatesList();
   }
 
   public ngOnDestroy(): void {
@@ -38,8 +45,25 @@ export class CandidatesComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  public getCandidatesList(): void {
+    this.candidatesService
+      .get()
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((item) => {
+          if (item) {
+            this.spinner.hide();
+          }
+        })
+      )
+      .subscribe((items) => this.candidates$.next(items));
+  }
+
   public openCandidatesDialog(): void {
     const dialogRef = this.dialog.open(DialogCandidatesComponent, {
+      data: {
+        candidates$: this.candidates$,
+      },
       width: '25rem',
     });
 
@@ -72,37 +96,32 @@ export class CandidatesComponent implements OnInit, OnDestroy {
   }
 
   private addCandidate(newCandidate: CandidateModel): void {
+    this.spinner.show();
     this.candidatesService
       .post(newCandidate)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((addedCandidate) => {
-        this.candidates.push(addedCandidate);
+      .subscribe(() => {
+        this.getCandidatesList();
       });
   }
 
-  public deleteCandidate(candidate: CandidateModel): void {
-    this.candidates = this.candidates.filter((item) => item !== candidate);
+  public deleteCandidate(deletedCandidate: CandidateModel): void {
+    this.spinner.show();
     this.candidatesService
-      .delete(candidate.id)
+      .delete(deletedCandidate.id)
       .pipe(takeUntil(this.destroy$))
-      .subscribe();
+      .subscribe(() => {
+        this.getCandidatesList();
+      });
   }
 
   private updateCandidate(updatedCandidate: CandidateModel): void {
-    let index = 0;
-    const candidate = this.candidates.find((item, candidateIndex) => {
-      if (item.id === updatedCandidate.id) {
-        index = candidateIndex;
-      }
-      return item.id === updatedCandidate.id;
-    });
-    if (candidate) {
-      this.candidatesService
-        .put(updatedCandidate)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(() => {
-          this.candidates[index] = updatedCandidate;
-        });
-    }
+    this.spinner.show();
+    this.candidatesService
+      .put(updatedCandidate)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.getCandidatesList();
+      });
   }
 }

@@ -1,17 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  DoCheck,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { RecruitersService } from '../../core/services/recruiters.service';
 import { RecruiterModel } from '../../core/models/recruiter.model';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogRecruitersComponent } from './dialog-recruiters/dialog-recruiters.component';
 import { PutRecruitersComponent } from './put-recruiters/put-recruiters.component';
-import { filter, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, filter, Subject, takeUntil, tap } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -20,30 +13,19 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrl: './recruiters.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RecruitersComponent implements OnInit, DoCheck, OnDestroy {
-  public recruiters: RecruiterModel[] = [];
+export class RecruitersComponent implements OnInit, OnDestroy {
+  public recruiters$ = new BehaviorSubject<Array<RecruiterModel> | null>(null);
   private destroy$ = new Subject();
 
   constructor(
     private readonly recruitersService: RecruitersService,
     private readonly dialog: MatDialog,
-    private readonly spinner: NgxSpinnerService,
-    private readonly cdr: ChangeDetectorRef,
+    private readonly spinner: NgxSpinnerService
   ) {}
 
   public ngOnInit(): void {
     this.spinner.show();
-    this.recruitersService
-      .get()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        this.spinner.hide();
-        this.recruiters = data;
-      });
-  }
-
-  public ngDoCheck(): void {
-    console.log('DoCheck');
+    this.getRecruitersList();
   }
 
   public ngOnDestroy(): void {
@@ -51,8 +33,25 @@ export class RecruitersComponent implements OnInit, DoCheck, OnDestroy {
     this.destroy$.complete();
   }
 
+  private getRecruitersList(): void {
+    this.recruitersService
+      .get()
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((item) => {
+          if (item) {
+            this.spinner.hide();
+          }
+        })
+      )
+      .subscribe((items) => this.recruiters$.next(items));
+  }
+
   public openRecruitersDialog(): void {
     const dialogRef = this.dialog.open(DialogRecruitersComponent, {
+      data: {
+        recruiters$: this.recruiters$,
+      },
       width: '25rem',
     });
 
@@ -60,7 +59,7 @@ export class RecruitersComponent implements OnInit, DoCheck, OnDestroy {
       .afterClosed()
       .pipe(
         takeUntil(this.destroy$),
-        filter((item) => item)
+        filter((item) => !!item)
       )
       .subscribe((result) => {
         this.addRecruiter(result);
@@ -77,7 +76,7 @@ export class RecruitersComponent implements OnInit, DoCheck, OnDestroy {
       .afterClosed()
       .pipe(
         takeUntil(this.destroy$),
-        filter((item) => item)
+        filter((item) => !!item)
       )
       .subscribe((result) => {
         this.updateRecruiter(result);
@@ -85,37 +84,32 @@ export class RecruitersComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   private addRecruiter(newRecruiter: RecruiterModel): void {
+    this.spinner.show();
     this.recruitersService
       .post(newRecruiter)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((addedRecruiter) => {
-        this.recruiters = [...this.recruiters, addedRecruiter];
+      .subscribe(() => {
+        this.getRecruitersList();
       });
   }
 
-  public deleteRecruiter(recruiter: RecruiterModel): void {
-    this.recruiters = this.recruiters.filter((item) => item !== recruiter);
+  public deleteRecruiter(deletedRecruiter: RecruiterModel): void {
+    this.spinner.show();
     this.recruitersService
-      .delete(recruiter.id)
+      .delete(deletedRecruiter.id)
       .pipe(takeUntil(this.destroy$))
-      .subscribe();
+      .subscribe(() => {
+        this.getRecruitersList();
+      });
   }
 
-  private updateRecruiter(updatedRecruiter: RecruiterModel): void {
-    let index = 0;
-    const recruiter = this.recruiters.find((item, recruiterIndex) => {
-      if (item.id === updatedRecruiter.id) {
-        index = recruiterIndex;
-      }
-      return item.id === updatedRecruiter.id;
-    });
-    if (recruiter) {
-      this.recruitersService
-        .put(updatedRecruiter)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(() => {
-          this.recruiters[index] = updatedRecruiter;
-        });
-    }
+  public updateRecruiter(updatedRecruiter: RecruiterModel): void {
+    this.spinner.show();
+    this.recruitersService
+      .put(updatedRecruiter)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.getRecruitersList();
+      });
   }
 }

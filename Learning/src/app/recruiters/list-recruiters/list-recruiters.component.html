@@ -1,0 +1,39 @@
+<mat-card class="flex flex-col p-6 mt-6 !rounded" *ngFor="let recruiter of recruiters">
+    <div class="flex flex-wrap items-center">
+        <img src="{{ recruiter.image }}" class="w-20 h-20 rounded">
+        <div class="flex flex-col flex-1">
+            <div class="flex pb-1">
+                <div class="flex justify-between items-center font-bold text-lg text-blue px-4">
+                    {{ recruiter.firstName + ' ' + recruiter.lastName }}
+                    <mat-icon class="text-coral ml-1">
+                        person
+                    </mat-icon>
+                </div>
+            </div>
+            <div class="flex flex-wrap px-4 text-base">
+                <div class="flex items-center pr-4 font-semibold text-gray">
+                    <mat-icon class="mr-2">
+                        call
+                    </mat-icon>
+                    {{ recruiter.phone }}
+                </div>
+                <div class="flex items-center pr-4 font-semibold text-gray">
+                    <mat-icon class="mr-2">
+                        mail
+                    </mat-icon>
+                    {{ recruiter.email }}
+                </div>
+                <div class="flex items-center pr-4 font-semibold text-gray">
+                    <mat-icon class="mr-2">
+                        calendar_month
+                    </mat-icon>
+                    {{ recruiter.birthday | date: 'dd/MM/yyyy' }}
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-between flex-wrap max-w-44 flex-1">
+            <button mat-raised-button class="!font-bold !bg-coral !text-white" (click)="deleteRecruiter(recruiter)">DELETE</button>
+            <button mat-raised-button class="!font-bold !bg-rblue !text-white" (click)="updateRecruiter(recruiter)">EDIT</button>
+        </div>
+    </div>
+</mat-card>

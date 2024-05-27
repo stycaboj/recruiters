@@ -1,0 +1,61 @@
+<table *ngIf="interviews" #table mat-table [dataSource]="interviews" class="mt-4">
+    <ng-container matColumnDef="vacancy">
+        <th mat-header-cell *matHeaderCellDef class="!font-bold !text-gray !bg-lgray !rounded-l"> Vacancy </th>
+        <td mat-cell *matCellDef="let interview">
+            <div class="flex items-center mt-4 -ml-4 text-base">
+                <div class="flex justify-center items-center font-semibold w-14 h-14 rounded text-coral bg-lcoral mr-4">
+                    {{ interview.vacancy.title.slice(0, 3).toUpperCase() }}
+                </div>
+                <div>
+                    <div class="text-blue font-semibold">{{ interview.vacancy.title }}</div>
+                    <div class="text-gray font-semibold">{{ interview.vacancy.description }}</div>
+                </div>
+            </div>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="recruiter">
+        <th mat-header-cell *matHeaderCellDef class="!font-bold !text-gray !bg-lgray"> Recruiter </th>
+        <td mat-cell *matCellDef="let interview">
+            <div class="text-base mt-4">
+                <div class="text-blue font-semibold">{{ interview.recruiter.firstName + ' ' +
+                    interview.recruiter.lastName}}</div>
+                <div class="text-gray font-semibold">{{ interview.recruiter.email }}</div>
+            </div>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="time">
+        <th mat-header-cell *matHeaderCellDef class="!font-bold !text-gray !bg-lgray"> Time </th>
+        <td mat-cell *matCellDef="let interview">
+            <div class="text-base mt-4">
+                <div class="text-blue font-semibold">{{ interview.vacancy.startDate | date: 'HH:mm' }}</div>
+                <div class="text-gray font-semibold">{{ interview.vacancy.startDate | date: 'dd/MM/yyyy' }}</div>
+            </div>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="candidate">
+        <th mat-header-cell *matHeaderCellDef class="!font-bold !text-gray !bg-lgray"> Candidate
+        </th>
+        <td mat-cell *matCellDef="let interview">
+            <div class="text-base mt-4">
+                <div class="text-blue font-semibold">{{ interview.candidate.firstName + ' ' +
+                    interview.candidate.lastName }}</div>
+                <div class="text-gray font-semibold">{{ getSkills(interview.candidate)}}</div>
+            </div>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="buttons">
+        <th mat-header-cell *matHeaderCellDef class="!font-bold !text-gray !bg-lgray !rounded-r"></th>
+        <td mat-cell *matCellDef="let interview">
+            <div class="flex justify-between max-w-24 flex-1 ml-auto mt-4">
+                <button mat-mini-fab class="!bg-lgray" (click)="updateInterview(interview)">
+                    <mat-icon class="!text-gray">edit</mat-icon>
+                </button>
+                <button mat-mini-fab class="!bg-lgray" (click)="deleteInterview(interview)">
+                    <mat-icon class="!text-gray">delete</mat-icon>
+                </button>
+            </div>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+</table>
