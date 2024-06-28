@@ -47,10 +47,10 @@
         <th mat-header-cell *matHeaderCellDef class="!font-bold !text-gray !bg-lgray !rounded-r"></th>
         <td mat-cell *matCellDef="let interview">
             <div class="flex justify-between max-w-24 flex-1 ml-auto mt-4">
-                <button mat-mini-fab class="!bg-lgray" (click)="updateInterview(interview)">
+                <button permissionDirective="INTERVIEWS_EDIT" mat-mini-fab class="!bg-lgray" (click)="updateInterview(interview)">
                     <mat-icon class="!text-gray">edit</mat-icon>
                 </button>
-                <button mat-mini-fab class="!bg-lgray" (click)="deleteInterview(interview)">
+                <button permissionDirective="INTERVIEWS_DELETE" mat-mini-fab class="!bg-lgray" (click)="deleteInterview(interview)">
                     <mat-icon class="!text-gray">delete</mat-icon>
                 </button>
             </div>

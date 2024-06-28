@@ -34,8 +34,12 @@ export class SettingsService {
   }
 
   public hasPermissions(requiredPermissions: string[]): Observable<boolean> {
-    const permissions = JSON.parse(localStorage.getItem(this.permissionsKey) || '{}');
-    const permissionsSubject = new BehaviorSubject<PermissionsModel | null>(permissions);
+    const permissions = JSON.parse(
+      localStorage.getItem(this.permissionsKey) || '{}'
+    );
+    const permissionsSubject = new BehaviorSubject<PermissionsModel | null>(
+      permissions
+    );
 
     return permissionsSubject.asObservable().pipe(
       map((permissions) => {
@@ -47,6 +51,19 @@ export class SettingsService {
       tap((hasPermission) => {
         if (!hasPermission) {
           this.router.navigate(['/access-denied']);
+        }
+      })
+    );
+  }
+
+  public checkPermission(permission: string): Observable<boolean> {
+    this.load();
+    return this.getPermissions().pipe(
+      map((permissions) => {
+        if (Object.values(permissions).find((item) => item === permission)) {
+          return true;
+        } else {
+          return false;
         }
       })
     );

@@ -32,8 +32,8 @@
             </div>
         </div>
         <div class="flex justify-between flex-wrap max-w-44 flex-1">
-            <button mat-raised-button class="!font-bold !bg-coral !text-white" (click)="deleteRecruiter(recruiter)">DELETE</button>
-            <button mat-raised-button class="!font-bold !bg-rblue !text-white" (click)="updateRecruiter(recruiter)">EDIT</button>
+            <button permissionDirective="RECRUITERS_DELETE" mat-raised-button class="!font-bold !bg-coral !text-white" (click)="deleteRecruiter(recruiter)">DELETE</button>
+            <button permissionDirective="RECRUITERS_EDIT" mat-raised-button class="!font-bold !bg-rblue !text-white" (click)="updateRecruiter(recruiter)">EDIT</button>
         </div>
     </div>
 </mat-card>

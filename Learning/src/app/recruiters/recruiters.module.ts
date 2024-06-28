@@ -15,6 +15,7 @@ import { PutRecruitersComponent } from './put-recruiters/put-recruiters.componen
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SpinnerModule } from '../../core/shared/spinner/spinner.module';
 import { ListRecruitersComponent } from './list-recruiters/list-recruiters.component';
+import { PermissionModule } from '../../core/directives/disable/disable.module';
 
 @NgModule({
   declarations: [RecruitersComponent, DialogRecruitersComponent, PutRecruitersComponent, ListRecruitersComponent],
@@ -30,7 +31,8 @@ import { ListRecruitersComponent } from './list-recruiters/list-recruiters.compo
     ReactiveFormsModule,
     MatDatepickerModule,
     NgxSpinnerModule,
-    SpinnerModule
+    SpinnerModule,
+    PermissionModule
   ],
   providers: [],
 })

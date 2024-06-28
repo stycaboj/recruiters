@@ -16,6 +16,7 @@ import { PutVacanciesComponent } from './put-vacancies/put-vacancies.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SpinnerModule } from '../../core/shared/spinner/spinner.module';
 import { ListVacanciesComponent } from './list-vacancies/list-vacancies.component';
+import { PermissionModule } from '../../core/directives/disable/disable.module';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ListVacanciesComponent } from './list-vacancies/list-vacancies.componen
     FormsModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
-    SpinnerModule
+    SpinnerModule,
+    PermissionModule
   ],
   providers: [],
 })

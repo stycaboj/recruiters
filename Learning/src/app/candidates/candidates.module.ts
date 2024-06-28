@@ -15,6 +15,7 @@ import { PutCandidatesComponent } from './put-candidates/put-candidates.componen
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SpinnerModule } from '../../core/shared/spinner/spinner.module';
 import { ListCandidatesComponent } from './list-candidates/list-candidates.component';
+import { PermissionModule } from '../../core/directives/disable/disable.module';
 
 @NgModule({
   declarations: [CandidatesComponent, DialogCandidatesComponent, PutCandidatesComponent, ListCandidatesComponent],
@@ -30,7 +31,8 @@ import { ListCandidatesComponent } from './list-candidates/list-candidates.compo
     MatFormFieldModule,
     MatDatepickerModule,
     NgxSpinnerModule,
-    SpinnerModule
+    SpinnerModule,
+    PermissionModule
   ],
   providers: [],
 })

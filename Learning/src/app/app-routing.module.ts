@@ -17,25 +17,25 @@ const routes: Routes = [
     path: 'vacancies',
     loadChildren: () => import('./vacancies/vacancies.module').then((m) => m.VacanciesModule),
     canActivate: [AuthGuard, PermissionsGuard],
-    data: { permissions: ['vacanciesView', 'vacanciesCreate'] }
+    data: { permissions: ['vacanciesView'] }
   },
   {
     path: 'recruiters',
     loadChildren: () => import('./recruiters/recruiters.module').then((m) => m.RecruitersModule),
     canActivate: [AuthGuard, PermissionsGuard],
-    data: { permissions: ['recruitersView', 'recruitersCreate'] }
+    data: { permissions: ['recruitersView'] }
   },
   {
     path: 'candidates',
     loadChildren: () => import('./candidates/candidates.module').then((m) => m.CandidatesModule),
     canActivate: [AuthGuard, PermissionsGuard],
-    data: { permissions: ['candidatesView', 'candidatesCreate'] }
+    data: { permissions: ['candidatesView'] }
   },
   {
     path: 'interviews',
     loadChildren: () => import('./interviews/interviews.module').then((m) => m.InterviewsModule),
     canActivate: [AuthGuard, PermissionsGuard],
-    data: { permissions: ['interviewsView', 'interviewsCreate'] }
+    data: { permissions: ['interviewsView'] }
   },
   {
     path: 'settings',

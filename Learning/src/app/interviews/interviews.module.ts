@@ -16,6 +16,7 @@ import { PutInterviewsComponent } from './put-interviews/put-interviews.componen
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SpinnerModule } from '../../core/shared/spinner/spinner.module';
 import { ListInterviewsComponent } from './list-interviews/list-interviews.component';
+import { PermissionModule } from '../../core/directives/disable/disable.module';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ListInterviewsComponent } from './list-interviews/list-interviews.compo
     FormsModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
-    SpinnerModule
+    SpinnerModule,
+    PermissionModule
   ],
   providers: [],
 })
